@@ -1,0 +1,315 @@
+/**
+ * BuzzarFeed - Login Page Styles
+ * 
+ * Styling for the user login page
+ * 
+ * @package BuzzarFeed
+ * @version 1.0
+ */
+
+/* ===============================================
+   LOGIN PAGE LAYOUT
+   =============================================== */
+
+.login-page {
+    background-color: var(--color-primary-beige);
+}
+
+.login-section {
+    min-height: calc(100vh - 80px);
+    padding: var(--spacing-lg) 0;
+    display: flex;
+    align-items: center;
+}
+
+.login-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--spacing-xl);
+    align-items: center;
+    max-width: 1200px;
+    padding: 0 var(--spacing-lg);
+}
+
+/* ===============================================
+   LEFT SIDE - LOGIN FORM
+   =============================================== */
+
+.login-form-wrapper {
+    background-color: transparent;
+    padding: 0;
+    max-width: 480px;
+    width: 100%;
+    order: 1; /* Place form on left side */
+}
+
+.back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--color-dark);
+    font-size: 0.95rem;
+    margin-bottom: var(--spacing-md);
+    padding: 0.5rem 1rem;
+    transition: color var(--transition-fast);
+}
+
+.back-link:hover {
+    color: var(--color-orange);
+}
+
+.login-title {
+    font-family: var(--font-heading);
+    font-size: 2.5rem;
+    font-weight: var(--font-weight-bold);
+    color: var(--color-dark);
+    margin-bottom: 0.5rem;
+}
+
+.login-subtitle {
+    font-size: 1rem;
+    color: var(--color-text);
+    margin-bottom: var(--spacing-md);
+}
+
+.login-subtitle .link-orange {
+    color: var(--color-orange);
+    font-weight: var(--font-weight-semibold);
+    text-decoration: none;
+    transition: opacity var(--transition-fast);
+}
+
+.login-subtitle .link-orange:hover {
+    opacity: 0.8;
+    text-decoration: underline;
+}
+
+/* ===============================================
+   LOGIN FORM
+   =============================================== */
+
+.login-form {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.form-label {
+    font-size: 0.95rem;
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-dark);
+}
+
+.form-input {
+    width: 100%;
+    padding: 0.875rem 1rem;
+    font-size: 1rem;
+    font-family: var(--font-primary);
+    color: var(--color-dark);
+    background-color: var(--color-white);
+    border: 2px solid rgba(44, 44, 44, 0.25);
+    border-radius: 8px;
+    transition: border-color var(--transition-fast);
+}
+
+.form-input:focus {
+    outline: none;
+    border-color: var(--color-orange);
+}
+
+.form-input::placeholder {
+    color: rgba(44, 44, 44, 0.5);
+}
+
+/* Forgot Password Link */
+.forgot-password-wrapper {
+    text-align: right;
+    margin-top: -0.25rem;
+    margin-bottom: 0.5rem;
+}
+
+.forgot-password-link {
+    font-size: 0.9rem;
+    color: var(--color-text);
+    text-decoration: none;
+    transition: color var(--transition-fast);
+}
+
+.forgot-password-link:hover {
+    color: var(--color-orange);
+    text-decoration: underline;
+}
+
+/* Submit Button */
+.btn-submit {
+    margin-top: var(--spacing-sm);
+    padding: 1rem;
+    font-size: 1rem;
+    font-weight: var(--font-weight-bold);
+    letter-spacing: 0.5px;
+}
+
+.btn-full {
+    width: 100%;
+}
+
+/* ===============================================
+   RIGHT SIDE - POLAROID PLACEHOLDERS
+   =============================================== */
+
+.login-visual {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding-right: var(--spacing-xl);
+    min-height: 500px;
+    position: relative;
+    order: 2; /* Place visuals on right side */
+}
+
+.polaroid-stack-login {
+    position: relative;
+    width: 320px;
+    height: 420px;
+}
+
+.polaroid-login-1 {
+    position: absolute;
+    top: 40px;
+    right: -100px;
+    transform: rotate(12deg);
+    z-index: 1;
+    width: 200px;
+    height: 240px;
+}
+
+.polaroid-login-2 {
+    position: absolute;
+    top: 80px;
+    right: 120px;
+    transform: rotate(-8deg);
+    z-index: 2;
+    width: 200px;
+    height: 240px;
+}
+
+.polaroid-login-3 {
+    position: absolute;
+    top: 200px;
+    right: 20px;
+    transform: rotate(5deg);
+    z-index: 3;
+    width: 200px;
+    height: 240px;
+}
+
+/* Polaroid Style (reuse from signup) */
+.polaroid {
+    background-color: var(--color-white);
+    padding: 12px;
+    padding-bottom: 40px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    transition: transform var(--transition-normal);
+}
+
+.polaroid-img {
+    width: 100%;
+    height: 100%;
+    background-color: #E8E8E8;
+    background-image: 
+        linear-gradient(45deg, #F0F0F0 25%, transparent 25%),
+        linear-gradient(-45deg, #F0F0F0 25%, transparent 25%),
+        linear-gradient(45deg, transparent 75%, #F0F0F0 75%),
+        linear-gradient(-45deg, transparent 75%, #F0F0F0 75%);
+    background-size: 20px 20px;
+    background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
+}
+
+/* ===============================================
+   ALERTS
+   =============================================== */
+
+.alert {
+    padding: var(--spacing-md);
+    border-radius: var(--radius-md);
+    margin-bottom: var(--spacing-md);
+}
+
+.alert ul {
+    margin: 0;
+    padding-left: var(--spacing-md);
+    list-style: disc;
+}
+
+.alert-success {
+    background-color: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
+
+.alert-error {
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+}
+
+/* ===============================================
+   RESPONSIVE DESIGN
+   =============================================== */
+
+@media (max-width: 992px) {
+    .login-container {
+        grid-template-columns: 1fr;
+        gap: var(--spacing-lg);
+    }
+
+    .login-visual {
+        display: none;
+    }
+
+    .login-form-wrapper {
+        max-width: 500px;
+        margin: 0 auto;
+    }
+}
+
+@media (max-width: 768px) {
+    .login-section {
+        padding: var(--spacing-lg) 0;
+    }
+
+    .login-title {
+        font-size: 2rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .login-title {
+        font-size: 1.75rem;
+    }
+
+    .form-input {
+        padding: 0.75rem;
+        font-size: 0.95rem;
+    }
+}
+
+/* ===============================================
+   PRINT STYLES
+   =============================================== */
+
+@media print {
+    .login-page {
+        background-color: white;
+    }
+
+    .login-visual {
+        display: none;
+    }
+}

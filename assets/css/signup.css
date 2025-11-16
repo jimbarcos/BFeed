@@ -1,0 +1,423 @@
+/**
+ * BuzzarFeed - Sign Up Page Styles
+ * 
+ * Styling for the user registration page
+ * 
+ * @package BuzzarFeed
+ * @version 1.0
+ */
+
+/* ===============================================
+   SIGNUP PAGE LAYOUT
+   =============================================== */
+
+.signup-page {
+    background-color: var(--color-primary-beige);
+}
+
+.signup-section {
+    min-height: calc(100vh - 80px);
+    padding: var(--spacing-xl) 0;
+    display: flex;
+    align-items: center;
+}
+
+.signup-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--spacing-xxl);
+    align-items: center;
+    max-width: 1200px;
+}
+
+/* ===============================================
+   LEFT SIDE - POLAROID IMAGES
+   =============================================== */
+
+.signup-visual {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    padding-left: var(--spacing-xl);
+    min-height: 500px;
+    position: relative;
+}
+
+.polaroid-stack {
+    position: relative;
+    width: 320px;
+    height: 420px;
+}
+
+.polaroid-signup-1 {
+    position: absolute;
+    top: 20px;
+    left: -150px;
+    transform: rotate(-15deg);
+    z-index: 1;
+    width: 200px;
+    height: 240px;
+}
+
+.polaroid-signup-2 {
+    position: absolute;
+    top: 20px;
+    left: 200px;
+    transform: rotate(15deg);
+    z-index: 2;
+    width: 200px;
+    height: 240px;
+}
+
+.polaroid-signup-3 {
+    position: absolute;
+    top: 160px;
+    left: 30px;
+    transform: rotate(-5deg);
+    z-index: 3;
+    width: 200px;
+    height: 240px;
+}
+
+/* ===============================================
+   RIGHT SIDE - FORM
+   =============================================== */
+
+.signup-form-wrapper {
+    background-color: var(--color-primary-beige);
+    padding: var(--spacing-lg);
+    max-width: 500px;
+}
+
+.back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--color-dark);
+    font-size: 0.95rem;
+    margin-bottom: var(--spacing-md);
+    transition: color var(--transition-fast);
+}
+
+.back-link:hover {
+    color: var(--color-orange);
+}
+
+.signup-title {
+    font-family: var(--font-heading);
+    font-size: 2.5rem;
+    font-weight: var(--font-weight-bold);
+    color: var(--color-dark);
+    margin-bottom: var(--spacing-xs);
+}
+
+.signup-subtitle {
+    font-size: 1rem;
+    color: var(--color-text-light);
+    margin-bottom: var(--spacing-md);
+}
+
+.link-orange {
+    color: var(--color-orange);
+    font-weight: var(--font-weight-semibold);
+    transition: color var(--transition-fast);
+}
+
+.link-orange:hover {
+    color: #d15534;
+    text-decoration: underline;
+}
+
+/* ===============================================
+   FORM ELEMENTS
+   =============================================== */
+
+.signup-form {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.form-label {
+    font-size: 0.95rem;
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-dark);
+}
+
+.form-input {
+    width: 100%;
+    padding: 0.875rem 1rem;
+    font-size: 1rem;
+    font-family: var(--font-primary);
+    color: var(--color-dark);
+    background-color: var(--color-white);
+    border: 2px solid rgba(44, 44, 44, 0.25);
+    border-radius: 8px;
+    transition: border-color var(--transition-fast);
+}
+
+.form-input:focus {
+    outline: none;
+    border-color: var(--color-orange);
+}
+
+.form-input::placeholder {
+    color: rgba(44, 44, 44, 0.4);
+}
+
+/* Password Toggle */
+.password-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.password-toggle {
+    position: absolute;
+    right: 12px;
+    background: none;
+    border: none;
+    color: var(--color-text-light);
+    cursor: pointer;
+    padding: 8px;
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: color var(--transition-fast);
+    z-index: 10;
+}
+
+.password-toggle:hover {
+    color: var(--color-orange);
+}
+
+.password-toggle:focus {
+    outline: none;
+    color: var(--color-orange);
+}
+
+.password-toggle i {
+    pointer-events: none;
+}
+
+/* Radio Buttons */
+.radio-group {
+    display: flex;
+    gap: var(--spacing-lg);
+}
+
+.radio-option {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    position: relative;
+}
+
+.radio-option input[type="radio"] {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+}
+
+.radio-label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.95rem;
+    color: var(--color-dark);
+    user-select: none;
+}
+
+.radio-dot {
+    width: 20px;
+    height: 20px;
+    border: 2px solid var(--color-green);
+    border-radius: 50%;
+    position: relative;
+    transition: all var(--transition-fast);
+}
+
+.radio-option input[type="radio"]:checked + .radio-label .radio-dot {
+    background-color: var(--color-green);
+}
+
+.radio-option input[type="radio"]:checked + .radio-label .radio-dot::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 8px;
+    height: 8px;
+    background-color: var(--color-white);
+    border-radius: 50%;
+}
+
+/* Checkbox */
+.checkbox-option {
+    display: flex;
+    align-items: flex-start;
+    cursor: pointer;
+    position: relative;
+}
+
+.checkbox-option input[type="checkbox"] {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+}
+
+.checkbox-label {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    font-size: 0.9rem;
+    color: var(--color-dark);
+    line-height: 1.5;
+    user-select: none;
+}
+
+.checkbox-box {
+    width: 20px;
+    height: 20px;
+    min-width: 20px;
+    border: 2px solid var(--color-green);
+    border-radius: 4px;
+    position: relative;
+    transition: all var(--transition-fast);
+    margin-top: 2px;
+}
+
+.checkbox-option input[type="checkbox"]:checked + .checkbox-label .checkbox-box {
+    background-color: var(--color-green);
+}
+
+.checkbox-option input[type="checkbox"]:checked + .checkbox-label .checkbox-box::after {
+    content: '\f00c';
+    font-family: 'Font Awesome 6 Free';
+    font-weight: 900;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: var(--color-white);
+    font-size: 12px;
+}
+
+/* Submit Button */
+.btn-submit {
+    margin-top: var(--spacing-md);
+    padding: 1rem;
+    font-size: 1rem;
+    font-weight: var(--font-weight-bold);
+    letter-spacing: 0.5px;
+    background-color: var(--color-orange);
+    border-radius: 10px;
+}
+
+.btn-submit:hover {
+    background-color: #d15534;
+}
+
+/* ===============================================
+   ALERTS
+   =============================================== */
+
+.alert {
+    padding: 1rem;
+    border-radius: 8px;
+    margin-bottom: var(--spacing-md);
+}
+
+.alert-error {
+    background-color: #fee;
+    border: 2px solid #fcc;
+    color: #c00;
+}
+
+.alert-error ul {
+    margin: 0;
+    padding-left: 1.5rem;
+}
+
+.alert-error li {
+    margin: 0.25rem 0;
+}
+
+.alert-success {
+    background-color: #efe;
+    border: 2px solid #cfc;
+    color: #060;
+}
+
+.alert-success p {
+    margin: 0;
+}
+
+.alert-success a {
+    color: #060;
+    font-weight: var(--font-weight-bold);
+    text-decoration: underline;
+}
+
+/* ===============================================
+   RESPONSIVE DESIGN
+   =============================================== */
+
+@media (max-width: 1024px) {
+    .signup-container {
+        grid-template-columns: 1fr;
+        gap: var(--spacing-lg);
+    }
+
+    .signup-visual {
+        display: none;
+    }
+
+    .signup-form-wrapper {
+        max-width: 600px;
+        margin: 0 auto;
+    }
+}
+
+@media (max-width: 768px) {
+    .signup-title {
+        font-size: 2rem;
+    }
+
+    .radio-group {
+        flex-direction: column;
+        gap: var(--spacing-sm);
+    }
+
+    .signup-form-wrapper {
+        padding: var(--spacing-md);
+    }
+}
+
+@media (max-width: 480px) {
+    .signup-section {
+        padding: var(--spacing-md) 0;
+    }
+
+    .signup-title {
+        font-size: 1.75rem;
+    }
+
+    .form-input {
+        padding: 0.75rem;
+        font-size: 0.95rem;
+    }
+
+    .btn-submit {
+        padding: 0.875rem;
+        font-size: 0.95rem;
+    }
+}

@@ -1,0 +1,139 @@
+/**
+ * BuzzarFeed - Header User Dropdown Styles
+ * 
+ * Styles for logged-in user dropdown menu
+ * 
+ * @package BuzzarFeed
+ * @version 1.0
+ */
+
+/* User Dropdown Styles */
+.user-dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.user-dropdown-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    background: transparent;
+    border: 2px solid var(--color-dark);
+    padding: 8px 16px;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+    height: 44px;
+}
+
+.user-dropdown-btn:hover {
+    background-color: var(--color-dark);
+    color: var(--color-white);
+}
+
+.user-dropdown-btn .dropdown-arrow {
+    font-size: 0.75rem;
+    transition: transform 0.3s ease;
+}
+
+.user-dropdown-btn.active .dropdown-arrow {
+    transform: rotate(180deg);
+}
+
+.user-name {
+    max-width: 150px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.dropdown-menu {
+    position: absolute;
+    top: calc(100% + 10px);
+    right: 0;
+    background-color: var(--color-white);
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    min-width: 220px;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10px);
+    transition: all 0.3s ease;
+    z-index: 1000;
+    padding: 8px 0;
+    list-style: none;
+    margin: 0;
+}
+
+.dropdown-menu.show {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.dropdown-menu li {
+    list-style: none;
+    margin: 0;
+}
+
+.dropdown-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 20px;
+    color: var(--color-dark);
+    text-decoration: none;
+    transition: background-color 0.2s ease;
+    font-size: 0.95rem;
+}
+
+.dropdown-item:hover {
+    background-color: var(--color-light-gray);
+}
+
+.dropdown-item i {
+    width: 20px;
+    text-align: center;
+    font-size: 1rem;
+}
+
+.dropdown-menu .divider {
+    height: 1px;
+    background-color: var(--color-border);
+    margin: 8px 0;
+}
+
+.dropdown-item.logout-link {
+    color: var(--color-error);
+}
+
+.dropdown-item.logout-link:hover {
+    background-color: rgba(232, 102, 62, 0.1);
+}
+
+@media (max-width: 768px) {
+    .user-dropdown {
+        width: 100%;
+    }
+    
+    .user-dropdown-btn {
+        width: 100%;
+        justify-content: space-between;
+    }
+    
+    .dropdown-menu {
+        position: static;
+        opacity: 1;
+        visibility: visible;
+        transform: none;
+        box-shadow: none;
+        margin-top: 10px;
+        display: none;
+        width: 100%;
+    }
+    
+    .dropdown-menu.show {
+        display: block;
+    }
+}

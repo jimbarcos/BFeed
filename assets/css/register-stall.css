@@ -1,0 +1,258 @@
+/* Stall Registration Page Styles */
+
+.registration-container {
+    max-width: 900px;
+    margin: 40px auto;
+    padding: 0 20px;
+}
+
+.registration-header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.registration-header h1 {
+    font-size: 36px;
+    font-weight: 700;
+    color: #2C2C2C;
+    margin: 0 0 10px 0;
+}
+
+.registration-header p {
+    font-size: 16px;
+    color: #666;
+    margin: 0;
+}
+
+.registration-form {
+    background: white;
+    border-radius: 12px;
+    padding: 40px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.form-section {
+    margin-bottom: 35px;
+}
+
+.section-title {
+    font-size: 20px;
+    font-weight: 700;
+    color: #2C2C2C;
+    margin: 0 0 20px 0;
+    padding-bottom: 12px;
+    border-bottom: 2px solid #F5F5F5;
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-label {
+    display: block;
+    font-size: 14px;
+    font-weight: 600;
+    color: #2C2C2C;
+    margin-bottom: 8px;
+}
+
+.required {
+    color: #DC3545;
+}
+
+.form-input,
+.form-textarea,
+.form-select {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 14px;
+    transition: border-color 0.3s ease;
+    box-sizing: border-box;
+}
+
+.form-textarea {
+    resize: vertical;
+    min-height: 120px;
+}
+
+.form-input:focus,
+.form-textarea:focus,
+.form-select:focus {
+    outline: none;
+    border-color: #ED6027;
+}
+
+.form-input.error,
+.form-textarea.error,
+.form-select.error {
+    border-color: #DC3545;
+}
+
+.error-message {
+    color: #DC3545;
+    font-size: 12px;
+    margin-top: 5px;
+    display: block;
+}
+
+.file-upload {
+    border: 2px dashed #ddd;
+    border-radius: 8px;
+    padding: 20px;
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
+.file-upload:hover {
+    border-color: #ED6027;
+    background: #FFF5F0;
+}
+
+.file-upload input[type="file"] {
+    display: none;
+}
+
+.file-upload-label {
+    display: block;
+    cursor: pointer;
+    color: #666;
+}
+
+.file-upload-label i {
+    font-size: 32px;
+    color: #ED6027;
+    margin-bottom: 10px;
+}
+
+.file-name {
+    font-size: 12px;
+    color: #489A44;
+    margin-top: 8px;
+}
+
+.checkbox-group {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 15px;
+}
+
+.checkbox-item {
+    display: flex;
+    align-items: center;
+}
+
+.checkbox-item input[type="checkbox"] {
+    margin-right: 8px;
+    width: 18px;
+    height: 18px;
+}
+
+.map-container {
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    overflow: hidden;
+    position: relative;
+    margin-bottom: 15px;
+}
+
+.map-image {
+    width: 100%;
+    display: block;
+    cursor: crosshair;
+}
+
+.map-pin {
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    background: #ED6027;
+    border: 3px solid white;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    pointer-events: none;
+}
+
+.map-instructions {
+    background: #f8f9fa;
+    padding: 12px;
+    border-radius: 8px;
+    font-size: 13px;
+    color: #666;
+    margin-top: 10px;
+}
+
+.form-actions {
+    display: flex;
+    gap: 15px;
+    justify-content: flex-end;
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 2px solid #F5F5F5;
+}
+
+.btn-primary {
+    background: #ED6027;
+    color: white;
+    padding: 14px 40px;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.btn-primary:hover {
+    background: #d55520;
+}
+
+.btn-secondary {
+    background: #6c757d;
+    color: white;
+    padding: 14px 40px;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background 0.3s ease;
+}
+
+.btn-secondary:hover {
+    background: #5a6268;
+}
+
+.help-text {
+    font-size: 12px;
+    color: #999;
+    margin-top: 5px;
+}
+
+@media (max-width: 768px) {
+    .form-row {
+        grid-template-columns: 1fr;
+    }
+    
+    .checkbox-group {
+        grid-template-columns: 1fr;
+    }
+    
+    .form-actions {
+        flex-direction: column;
+    }
+    
+    .btn-primary,
+    .btn-secondary {
+        width: 100%;
+    }
+}

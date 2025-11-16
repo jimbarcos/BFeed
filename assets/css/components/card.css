@@ -1,0 +1,111 @@
+/**
+ * BuzzarFeed - Card Component Styles
+ * 
+ * Modular card styles
+ * Following ISO 9241: Reusability
+ * 
+ * @package BuzzarFeed
+ * @version 2.0
+ */
+
+/* Base Card */
+.card {
+    background-color: var(--color-white);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-card);
+    overflow: hidden;
+    transition: all var(--transition-normal);
+}
+
+.card-hoverable:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-hover);
+}
+
+/* Card Image */
+.card-image {
+    width: 100%;
+    overflow: hidden;
+}
+
+.card-image img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    transition: transform var(--transition-normal);
+}
+
+.card-hoverable:hover .card-image img {
+    transform: scale(1.05);
+}
+
+/* Card Body */
+.card-body {
+    padding: var(--spacing-md);
+}
+
+.card-title {
+    font-size: var(--font-size-xl);
+    font-weight: var(--font-weight-bold);
+    margin-bottom: var(--spacing-sm);
+    color: var(--color-text);
+}
+
+.card-subtitle {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-light);
+    margin-bottom: var(--spacing-sm);
+}
+
+.card-content {
+    font-size: var(--font-size-base);
+    color: var(--color-text);
+    line-height: 1.6;
+}
+
+/* Card Footer */
+.card-footer {
+    padding: var(--spacing-md);
+    border-top: 1px solid var(--color-border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.card-actions {
+    display: flex;
+    gap: var(--spacing-sm);
+    align-items: center;
+}
+
+/* Card Variants */
+.card-stall {
+    /* Specific styles for stall cards */
+}
+
+.card-review {
+    /* Specific styles for review cards */
+}
+
+.card-join {
+    /* Specific styles for join cards */
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .card-body {
+        padding: var(--spacing-sm);
+    }
+    
+    .card-footer {
+        padding: var(--spacing-sm);
+        flex-direction: column;
+        gap: var(--spacing-sm);
+        align-items: stretch;
+    }
+    
+    .card-actions {
+        width: 100%;
+        flex-direction: column;
+    }
+}
