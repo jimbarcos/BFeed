@@ -87,7 +87,6 @@ $allCategories = $standardCategories;
                     <input type="text" name="search" class="search-input" placeholder="Search the Buzz..." value="<?= Helpers::escape($searchTerm) ?>">
                 </div>
                 <button type="submit" class="filter-btn">
-                    <i class="fas fa-search"></i>
                 </button>
             </form>
             
@@ -112,7 +111,7 @@ $allCategories = $standardCategories;
             <?php else: ?>
                 <div class="stalls-grid">
                     <?php foreach ($stalls as $stall): ?>
-                        <div class="stall-card">
+                        <a href="stall-detail.php?id=<?= $stall['id'] ?>" class="stall-card">
                             <?php if (!empty($stall['image'])): ?>
                                 <img src="<?= BASE_URL . Helpers::escape($stall['image']) ?>" alt="<?= Helpers::escape($stall['name']) ?>" class="stall-image">
                             <?php else: ?>
@@ -139,13 +138,13 @@ $allCategories = $standardCategories;
                                         $hasHalfStar = ($stall['rating'] - $fullStars) >= 0.5;
                                         
                                         for ($i = 0; $i < $fullStars; $i++) {
-                                            echo '<i class="fas fa-star"></i>';
+                                            echo '<i class="fas fa-star star"></i>';
                                         }
                                         if ($hasHalfStar) {
-                                            echo '<i class="fas fa-star-half-alt"></i>';
+                                            echo '<i class="fas fa-star-half-alt star"></i>';
                                         }
                                         for ($i = $fullStars + ($hasHalfStar ? 1 : 0); $i < 5; $i++) {
-                                            echo '<i class="far fa-star"></i>';
+                                            echo '<i class="far fa-star star"></i>';
                                         }
                                         ?>
                                     </div>
@@ -165,12 +164,8 @@ $allCategories = $standardCategories;
                                 <p class="stall-description">
                                     <?= Helpers::escape($stall['description']) ?>
                                 </p>
-                                
-                                <a href="stall-detail.php?id=<?= $stall['id'] ?>" class="btn-see-more">
-                                    See More <i class="fas fa-arrow-right"></i>
-                                </a>
                             </div>
-                        </div>
+                        </a>
                     <?php endforeach; ?>
                 </div>
             <?php endif; ?>

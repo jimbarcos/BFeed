@@ -1,10 +1,10 @@
 <?php
 /**
  * BuzzarFeed - Homepage (Using Modular Architecture)
- * 
+ *
  * Main landing page using new component system
  * Following ISO 9241: Maintainability, Reusability, Extensibility
- * 
+ *
  * @package BuzzarFeed
  * @version 2.0
  * @author BuzzarFeed Development Team
@@ -39,21 +39,21 @@ $pageDescription = "Explore food stalls, menus, and honest reviews from fellow f
     <meta name="description" content="<?php echo Helpers::escape($pageDescription); ?>">
     <meta name="keywords" content="BGC Night Market, food stalls, food reviews, Manila food blog, bazaar food">
     <meta name="author" content="BuzzarFeed">
-    
+
     <title><?php echo Helpers::escape($pageTitle); ?></title>
-    
+
     <!-- Favicon -->
     <link rel="icon" type="image/png" href="<?php echo IMAGES_URL; ?>favicon.png">
-    
+
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://api.fontshare.com/v2/css?f[]=geist@400,500,600,700&display=swap" rel="stylesheet">
-    
+
     <!-- Font Awesome for icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
+
     <!-- Custom CSS -->
     <link rel="stylesheet" href="<?php echo CSS_URL; ?>variables.css">
     <link rel="stylesheet" href="<?php echo CSS_URL; ?>base.css">
@@ -66,7 +66,7 @@ $pageDescription = "Explore food stalls, menus, and honest reviews from fellow f
     <?php include INCLUDES_PATH . '/header.php'; ?>
 
     <!-- Hero Section -->
-    <?php 
+    <?php
     $heroSection = new HeroSection([
         'title' => 'Discover the Flavors<br>of <span class="highlight-orange">BGC Night Market</span>',
         'description' => 'Taste. Try. Savor. Explore top stalls, menus, and honest reviews from fellow food lovers — at BGC Night Market.',
@@ -80,31 +80,31 @@ $pageDescription = "Explore food stalls, menus, and honest reviews from fellow f
     <section class="brands-carousel">
         <div class="container">
             <p class="carousel-tagline">
-                <span class="highlight-orange">From local favorites to</span> <span class="highlight-green">hidden gems</span> 
+                <span class="highlight-orange">From local favorites to</span> <span class="highlight-green">hidden gems</span>
                 <span class="highlight-orange">— discover them here.</span>
             </p>
-            
+
             <div class="carousel-wrapper">
                 <button class="carousel-btn carousel-prev" aria-label="Previous">
                     <i class="fas fa-chevron-left"></i>
                 </button>
-                
+
                 <div class="carousel-container">
                     <div class="carousel-track">
                         <?php for ($i = 0; $i < 4; $i++): ?>
                         <div class="carousel-item">
-                            <i class="fas fa-star star-icon"></i>
+                            <img src="<?php echo IMAGES_URL; ?>star.svg" alt="Featured brand star" class="star-icon">
                             <span class="brand-logo">Logo/brand</span>
                         </div>
                         <?php endfor; ?>
                     </div>
                 </div>
-                
+
                 <button class="carousel-btn carousel-next" aria-label="Next">
                     <i class="fas fa-chevron-right"></i>
                 </button>
             </div>
-            
+
             <div class="carousel-dots">
                 <?php for ($i = 0; $i < 4; $i++): ?>
                 <span class="dot <?php echo $i === 0 ? 'active' : ''; ?>"></span>
@@ -114,7 +114,7 @@ $pageDescription = "Explore food stalls, menus, and honest reviews from fellow f
     </section>
 
     <!-- Featured Stalls Section -->
-    <?php 
+    <?php
     $featuredStallsSection = new FeaturedStallsSection([
         'title' => '<span class="highlight-green">Explore</span> featured<br>stalls',
         'location' => 'Terra 28th, 28th St. corner 7th Ave. BGC'
@@ -123,7 +123,7 @@ $pageDescription = "Explore food stalls, menus, and honest reviews from fellow f
     ?>
 
     <!-- Reviews Section -->
-    <?php 
+    <?php
     $reviewsSection = new ReviewsSection([
         'title' => 'See what foodies are <span class="highlight-green">raving</span> about...'
     ]);
@@ -148,7 +148,7 @@ $pageDescription = "Explore food stalls, menus, and honest reviews from fellow f
                         <li><i class="fas fa-check"></i> Engage with the foodies</li>
                         <li><i class="fas fa-check"></i> Discover hidden food stalls</li>
                     </ul>
-                    <?php 
+                    <?php
                     echo (new Button([
                         'text' => 'Get started',
                         'href' => 'signup.php?type=user',
@@ -170,7 +170,7 @@ $pageDescription = "Explore food stalls, menus, and honest reviews from fellow f
                         <li><i class="fas fa-check"></i> Rate food stall operation</li>
                         <li><i class="fas fa-check"></i> Receive full time feature</li>
                     </ul>
-                    <?php 
+                    <?php
                     echo (new Button([
                         'text' => 'Get started',
                         'href' => 'signup.php?type=owner',

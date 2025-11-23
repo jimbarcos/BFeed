@@ -16,6 +16,8 @@ main {
     padding: 60px 20px;
     text-align: center;
     color: #FEEED5;
+    border-bottom: 5px solid #3B3B3B;
+    border-top: 5px solid #3B3B3B;
 }
 
 .hero-section h1 {
@@ -26,10 +28,11 @@ main {
 }
 
 .search-bar-container {
-    max-width: 700px;
+    max-width: 900px;
     margin: 0 auto;
     display: flex;
     gap: 10px;
+    align-items: stretch;
 }
 
 .search-input-wrapper {
@@ -40,11 +43,13 @@ main {
 .search-input {
     width: 100%;
     padding: 15px 20px 15px 50px;
-    border: none;
-    border-radius: 8px;
+    border: 3px solid #3B3B3B;
+    border-radius: 10px;
     font-size: 16px;
     background: #FEEED5;
-    color: #2C2C2C;
+    color: #3B3B3B;
+    box-sizing: border-box;
+    box-shadow: 0px 3px 0px rgba(59, 59, 59, 1);
 }
 
 .search-icon {
@@ -52,34 +57,58 @@ main {
     left: 20px;
     top: 50%;
     transform: translateY(-50%);
-    color: #666;
-    font-size: 18px;
+    color: #3B3B3B;
+    font-size: 20px;
 }
 
 .filter-btn {
+    display: flex;
     padding: 15px 25px;
+    /* Equal padding on all sides */
+    align-items: center;
+    justify-content: center;
     background: #FEEED5;
-    border: none;
-    border-radius: 8px;
+    border: 3px solid #3B3B3B;
+    border-radius: 10px;
     cursor: pointer;
     font-size: 18px;
-    color: #2C2C2C;
+    color: #3B3B3B;
+    box-shadow: 0px 3px 0px rgba(59, 59, 59, 1);
+    transition: all 0.2s ease;
+    position: relative;
+
+    /* filter icon drawing */
+    background-image:
+        linear-gradient(#3B3B3B, #3B3B3B),
+        linear-gradient(#3B3B3B, #3B3B3B),
+        linear-gradient(#3B3B3B, #3B3B3B);
+    background-repeat: no-repeat;
+    background-size:
+        28px 4px,
+        22px 4px,
+        16px 4px;
+    background-position:
+        center calc(50% - 8px),
+        center 50%,
+        center calc(50% + 8px);
 }
+
 
 .category-filters {
     display: flex;
     gap: 15px;
     justify-content: center;
     flex-wrap: wrap;
-    margin-top: 30px;
+    margin-top: 50px;
 }
 
 .category-btn {
     padding: 10px 24px;
     border-radius: 25px;
-    border: none;
+    border: 3px solid #3B3B3B;
+    border-radius: 10px;
     background: #FEEED5;
-    color: #2C2C2C;
+    color: #3b3b3b;
     font-weight: 500;
     cursor: pointer;
     transition: all 0.3s ease;
@@ -100,22 +129,31 @@ main {
     max-width: 1400px;
     margin: 0 auto;
     padding: 60px 20px;
+    background-color: #FEEED5;
 }
 
 .stalls-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 30px;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 20px;
     margin-top: 40px;
+    justify-items: center;
 }
 
 .stall-card {
-    background: #ED6027;
-    border-radius: 12px;
+    box-sizing: border-box;
+    width: 100%;
+    max-width: 420px;
+    background: #FEEED5;
+    border-radius: 10px;
+    border: 4px solid #3B3B3B;
+    box-shadow: 6px 6px 0px #3b3b3b;
     overflow: hidden;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
     cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.2s ease;
+    height: 430px;
+    display: flex;
+    flex-direction: column;
 }
 
 .stall-card:hover {
@@ -125,65 +163,64 @@ main {
 
 .stall-image {
     width: 100%;
-    height: 200px;
+    height: 150px;
     object-fit: cover;
 }
 
-.stall-image-placeholder {
-    width: 100%;
-    height: 200px;
-    background: linear-gradient(135deg, #ED6027 0%, #E8663E 100%);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: white;
-    font-size: 24px;
-    font-weight: 600;
-}
-
 .stall-content {
-    padding: 20px;
-    padding-bottom: 20px;
+    padding: 16px 18px;
+    background: #FEEED5;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
 }
 
 .stall-categories {
     display: flex;
-    gap: 8px;
+    gap: 10px;
     flex-wrap: wrap;
-    margin-bottom: 12px;
-    min-height: 24px;
+    margin-bottom: 16px;
+    min-height: unset;
 }
 
 .category-tag {
-    padding: 4px 12px;
-    background: #FEEED5;
-    border-radius: 15px;
+    background-color: transparent;
+    padding: 2px 10px;
+    border-radius: 20px;
     font-size: 13px;
-    color: #2C2C2C;
-    border: 1px solid #E0E0E0;
+    color: #3b3b3b;
+    border: 1px solid #3b3b3b;
 }
 
 .stall-name {
-    font-size: 22px;
-    font-weight: 600;
-    color: #FEEED5;
-    margin: 0 0 8px 0;
+    font-size: 32px;
+    font-weight: 700;
+    color: #3b3b3b;
+    margin-bottom: 8px;
 }
 
 .stall-rating {
     display: flex;
     align-items: center;
     gap: 8px;
-    margin-bottom: 12px;
+    margin-bottom: 16px;
 }
 
-.stars {
+.star {
+    font-size: 15px;
+    /* size */
     color: #FFB800;
-    font-size: 14px;
+    /* fill color */
+    -webkit-text-stroke: 1px #000;
+    /* border color + thickness */
+}
+
+.stars .empty {
+    color: #d4d4d4;
 }
 
 .rating-text {
-    color: #FEEED5;
+    color: #3b3b3b;
     font-size: 14px;
 }
 
@@ -191,26 +228,36 @@ main {
     display: flex;
     align-items: center;
     gap: 8px;
-    color: #FEEED5;
+    color: #3b3b3b;
     font-size: 14px;
     margin-bottom: 12px;
 }
 
 .stall-description {
-    color: #FEEED5;
+    color: #3b3b3b;
     font-size: 14px;
     line-height: 1.5;
-    margin: 0;
+    margin-bottom: 15px;
     display: -webkit-box;
     -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
     overflow: hidden;
 }
 
+.clock-icon {
+    width: 20px;
+    height: 20px;
+    border: 2px solid #3b3b3b;
+    border-radius: 50%;
+    position: relative;
+    flex-shrink: 0;
+}
+
+/* 
 .btn-see-more {
     display: inline-flex;
-    align-items: center;
-    gap: 8px;
+    align-items: flex-end;
+    gap: 10px;
     padding: 10px 20px;
     background-color: #489A44;
     color: white;
@@ -220,6 +267,7 @@ main {
     text-decoration: none;
     transition: all 0.3s ease;
     margin: 0;
+    border: 3px solid #3b3b3b;
 }
 
 .btn-see-more:hover {
@@ -234,6 +282,8 @@ main {
 .btn-see-more:hover i {
     transform: translateX(3px);
 }
+
+*/
 
 .empty-state {
     text-align: center;
@@ -262,11 +312,11 @@ main {
     .hero-section h1 {
         font-size: 32px;
     }
-    
+
     .search-bar-container {
         flex-direction: column;
     }
-    
+
     .stalls-grid {
         grid-template-columns: 1fr;
     }
