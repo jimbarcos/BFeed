@@ -1,8 +1,8 @@
 /**
  * BuzzarFeed - Login Page Styles
- * 
+ *
  * Styling for the user login page
- * 
+ *
  * @package BuzzarFeed
  * @version 1.0
  */
@@ -17,18 +17,47 @@
 
 .login-section {
     min-height: calc(100vh - 80px);
-    padding: var(--spacing-lg) 0;
+    padding: 0;
     display: flex;
-    align-items: center;
+    align-items: stretch;      /* stretch instead of center */
+    justify-content: center;
+    background-color: var(--color-primary-beige);
 }
 
-.login-container {
+/* Make THIS container a grid, overriding any global .container flex */
+.container.login-container {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: var(--spacing-xl);
+    grid-template-columns: 1fr 1.1fr;  /* LEFT: form | RIGHT: image */
+    grid-template-areas: "form image";
+    gap: var(--spacing-xxl);
     align-items: center;
     max-width: 1200px;
+    width: 100%;
+    margin: 0 auto;
     padding: 0 var(--spacing-lg);
+    position: relative;
+}
+
+.container.login-container::before {
+    content: "";
+    position: absolute;
+    left: 50%;
+    top: 0;
+    bottom: 0;
+    width: 5px;
+    background-color: var(--color-dark);
+    transform: translateX(-50%);
+}
+
+.login-container::before {
+    content: "";
+    position: absolute;
+    left: 50%;
+    top: 0;
+    bottom: 0;
+    width: 5px;
+    background-color: var(--color-dark);
+    transform: translateX(-50%);
 }
 
 /* ===============================================
@@ -40,7 +69,7 @@
     padding: 0;
     max-width: 480px;
     width: 100%;
-    order: 1; /* Place form on left side */
+    grid-area: form;   /* 👈 force to left column */
 }
 
 .back-link {
@@ -112,8 +141,8 @@
     font-size: 1rem;
     font-family: var(--font-primary);
     color: var(--color-dark);
-    background-color: var(--color-white);
-    border: 2px solid rgba(44, 44, 44, 0.25);
+    background-color: var(--color-light);
+    border: 2px solid var(--color-dark);
     border-radius: 8px;
     transition: border-color var(--transition-fast);
 }
@@ -168,9 +197,15 @@
     align-items: center;
     justify-content: flex-end;
     padding-right: var(--spacing-xl);
-    min-height: 500px;
-    position: relative;
-    order: 2; /* Place visuals on right side */
+    min-height: 400px;
+    grid-area: image;  /* 👈 force to right column */
+}
+
+.login-visual img {
+    width: 100%;
+    max-width: 450px;
+    height: auto;
+    object-fit: contain;
 }
 
 .polaroid-stack-login {
@@ -222,7 +257,7 @@
     width: 100%;
     height: 100%;
     background-color: #E8E8E8;
-    background-image: 
+    background-image:
         linear-gradient(45deg, #F0F0F0 25%, transparent 25%),
         linear-gradient(-45deg, #F0F0F0 25%, transparent 25%),
         linear-gradient(45deg, transparent 75%, #F0F0F0 75%),
@@ -277,6 +312,10 @@
         max-width: 500px;
         margin: 0 auto;
     }
+
+    .login-container::before {
+        display: none;
+    }
 }
 
 @media (max-width: 768px) {
@@ -287,11 +326,19 @@
     .login-title {
         font-size: 2rem;
     }
+
+    .login-container::before {
+        display: none;
+    }
 }
 
 @media (max-width: 480px) {
     .login-title {
         font-size: 1.75rem;
+    }
+
+    .login-container::before {
+        display: none;
     }
 
     .form-input {

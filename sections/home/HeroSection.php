@@ -59,8 +59,7 @@ class HeroSection extends BaseComponent {
             'text' => $this->ctaText,
             'href' => $this->ctaLink,
             'variant' => Button::VARIANT_PRIMARY,
-            'class' => 'btn-discover',
-            'icon' => 'fas fa-utensils'
+            'class' => 'btn-discover'
         ]);
 
         return '

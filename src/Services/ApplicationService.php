@@ -56,9 +56,17 @@ class ApplicationService
              ORDER BY a.created_at DESC"
         );
     }
-    
+
     /**
      * Approve an application and create the food stall
+     * 
+     * Steps:
+     *  1. Validate and fetch the application.
+     *  2. Start DB transaction.
+     *  3. Create the food stall and location.
+     *  4. Update application + user timestamp.
+     *  5. Commit transaction.
+     *  6. Send approval email (outside transaction).
      * 
      * @param int $applicationId
      * @param string $reviewNotes
@@ -103,7 +111,7 @@ class ApplicationService
             throw $e;
         }
     }
-    
+
     /**
      * Decline an application and clean up files
      * 
@@ -150,7 +158,7 @@ class ApplicationService
         $this->updateApplicationStatus($applicationId, 3);
         return true;
     }
-    
+
     /**
      * Create food stall from application data
      * 
@@ -194,7 +202,7 @@ class ApplicationService
             $application['map_y'] ?? null
         ]);
     }
-    
+
     /**
      * Update application status
      * 
@@ -254,7 +262,7 @@ class ApplicationService
             }
         }
     }
-    
+
     /**
      * Send approval email to applicant
      * 

@@ -579,9 +579,6 @@ HTML;
                     <!-- Success Icon -->
                     <tr>
                         <td style="background-color: #FEEED5; padding: 40px; text-align: center;">
-                            <div style="width: 80px; height: 80px; background-color: #489A44; border-radius: 50%; margin: 0 auto 20px; display: inline-flex; align-items: center; justify-content: center;">
-                                <span style="font-size: 48px; color: #FFFFFF;">✓</span>
-                            </div>
                             <h1 style="margin: 0; font-size: 32px; color: #2C2C2C; font-weight: 700;">Congratulations!</h1>
                             <p style="margin: 10px 0 0 0; font-size: 18px; color: #489A44; font-weight: 600;">Your Application Has Been Approved</p>
                         </td>
@@ -849,7 +846,7 @@ HTML;
         $manageStallUrl = BASE_URL . 'manage-stall.php';
         
         return <<<TEXT
-🎉 CONGRATULATIONS! Your Application Has Been Approved
+CONGRATULATIONS! Your Application Has Been Approved
 
 Hi {$name},
 

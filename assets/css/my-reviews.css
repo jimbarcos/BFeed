@@ -1,0 +1,313 @@
+/**
+ * My Reviews Page Styles
+ * Matches my-account.php design patterns
+ */
+
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    margin: 0;
+}
+
+.reviews-page {
+    background-color: var(--color-primary-beige);
+}
+
+main.reviews-container {
+    flex: 1 0 auto;
+    width: 100%;
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 3rem 1.25rem;
+}
+
+.reviews-header {
+    margin-bottom: 1.5rem;
+    padding-top: 0;
+}
+
+.reviews-header h1 {
+    font-size: 2rem;
+    margin: 0 0 0.5rem 0;
+    color: var(--color-dark);
+}
+
+.reviews-stats {
+    display: flex;
+    gap: 1.5rem;
+    margin-top: 1rem;
+    flex-wrap: wrap;
+}
+
+.stat-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--color-text);
+}
+
+.stat-item i {
+    color: var(--color-primary-green);
+}
+
+.reviews-list {
+    display: grid;
+    gap: 1.5rem;
+}
+
+.reviews-pagination {
+    margin-top: 1.5rem;
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+.page-link {
+    padding: 0.5rem 0.9rem;
+    border: 2px solid #2C2C2C;
+    background-color: var(--color-primary-beige);
+    color: var(--color-dark);
+    text-decoration: none;
+    font-size: 0.9rem;
+}
+
+.page-link.active {
+    background-color: var(--color-primary-green);
+    color: var(--color-primary-green);
+}
+
+.review-card {
+    background: transparent;
+    border: 3px solid #2C2C2C;
+    border-radius: 0;
+    padding: 1.5rem;
+    box-shadow: none;
+    transition: transform 0.2s;
+}
+
+.review-card:hover {
+    transform: translateY(-2px);
+}
+
+.review-card-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    margin-bottom: 1rem;
+    padding-bottom: 1rem;
+    border-bottom: 3px solid #2C2C2C;
+}
+
+.stall-logo {
+    width: 60px;
+    height: 60px;
+    border-radius: 8px;
+    object-fit: cover;
+    border: 2px solid #2C2C2C;
+}
+
+.review-header-info {
+    flex: 1;
+}
+
+.stall-name {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--color-dark);
+    margin: 0 0 0.25rem 0;
+}
+
+.stall-name a {
+    color: var(--color-dark);
+    text-decoration: none;
+}
+
+.stall-name a:hover {
+    color: var(--color-primary-green);
+}
+
+.review-meta {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    font-size: 0.875rem;
+    color: var(--color-text-light);
+}
+
+.review-rating {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+.review-rating .star {
+    color: #FFC107;
+    font-size: 1rem;
+}
+
+.review-rating .rating-value {
+    font-weight: 600;
+    color: var(--color-dark);
+    margin-left: 0.25rem;
+}
+
+.review-date {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+.review-content {
+    margin-bottom: 1rem;
+}
+
+.review-text {
+    color: var(--color-text);
+    line-height: 1.6;
+    margin: 0;
+}
+
+.review-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 1rem;
+    border-top: 3px solid #2C2C2C;
+}
+
+.review-stats {
+    display: flex;
+    gap: 1rem;
+}
+
+.stat-badge {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 0.75rem;
+    background-color: transparent;
+    border: 2px solid #2C2C2C;
+    border-radius: 5px;
+    font-size: 0.875rem;
+}
+
+.stat-badge i {
+    font-size: 1rem;
+}
+
+.stat-badge.dislikes i {
+    color: #C63D2D;
+}
+
+.stat-badge .count {
+    font-weight: 600;
+    color: var(--color-dark);
+}
+
+.tally-score {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    background-color: #4A9A4A;
+    color: white;
+    border-radius: 5px;
+    font-weight: 600;
+    border: 2px solid #2C2C2C;
+}
+
+.tally-score.negative {
+    background-color: #C63D2D;
+}
+
+.tally-score.neutral {
+    background-color: var(--color-text-light);
+}
+
+.empty-state {
+    text-align: center;
+    padding: 4rem 2rem;
+    background: transparent;
+    border: 3px solid #2C2C2C;
+    border-radius: 0;
+}
+
+.empty-state i {
+    font-size: 4rem;
+    color: var(--color-text-light);
+    margin-bottom: 1rem;
+}
+
+.empty-state h2 {
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+    color: var(--color-dark);
+}
+
+.empty-state p {
+    color: var(--color-text);
+    margin-bottom: 1.5rem;
+}
+
+/* Page-scoped button styles to avoid overriding header */
+
+.reviews-container .btn {
+    display: inline-block;
+    padding: 0.75rem 1.5rem;
+    background-color: var(--color-primary-green);
+    color: var(--color-primary-green);
+    text-decoration: none;
+    border: 3px solid #2C2C2C;
+    border-radius: 0;
+    font-weight: 600;
+    transition: all 0.2s;
+}
+
+/* Orange font for Explore Stalls button in empty state */
+.empty-state .btn {
+    color: #ED6027;
+}
+
+.reviews-container .btn:hover {
+    background-color: var(--color-dark);
+    transform: translateY(-2px);
+}
+
+/* Like button should be green background (scoped) */
+.reviews-container .stat-badge.likes {
+    background-color: transparent;
+    border-color: #2C2C2C;
+}
+
+.reviews-container .stat-badge.likes i,
+.reviews-container .stat-badge.likes .count {
+    color: #4A9A4A;
+}
+
+/* Dislike button styling */
+.reviews-container .stat-badge.dislikes {
+    background-color: transparent;
+}
+
+@media (max-width: 768px) {
+    .review-card-header {
+        flex-direction: column;
+    }
+
+    .review-footer {
+        flex-direction: column;
+        gap: 1rem;
+        align-items: flex-start;
+    }
+
+    .review-stats {
+        width: 100%;
+        justify-content: space-between;
+    }
+
+    .reviews-stats {
+        flex-direction: column;
+        gap: 0.75rem;
+    }
+}

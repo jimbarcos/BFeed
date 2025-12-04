@@ -75,14 +75,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Validation
     if (empty($stallName)) {
         $errors['stall_name'] = 'Stall name is required';
-    } elseif (strlen($stallName) < 3) {
-        $errors['stall_name'] = 'Stall name must be at least 3 characters';
+    } elseif (strlen($stallName) < 2) {
+        $errors['stall_name'] = 'Stall name must be at least 2 characters';
     }
     
     if (empty($description)) {
         $errors['description'] = 'Description is required';
-    } elseif (strlen($description) < 20) {
-        $errors['description'] = 'Description must be at least 20 characters';
+    } elseif (strlen($description) < 5) {
+        $errors['description'] = 'Description must be at least 5 characters';
     }
     
     if (empty($location)) {
@@ -115,6 +115,35 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $errors['stall_logo'] = 'Stall Logo is required';
     }
     
+    // Check file sizes (max 5MB) and upload errors
+    $maxFileSize = 5 * 1024 * 1024; // 5MB
+    $filesToCheck = [
+        'bir_registration' => $birFile,
+        'business_permit' => $permitFile,
+        'dti_sec' => $dtiFile,
+        'stall_logo' => $logoFile
+    ];
+
+    foreach ($filesToCheck as $field => $file) {
+        if (!$file) {
+            continue;
+        }
+
+        if ($file['error'] === UPLOAD_ERR_NO_FILE) {
+            // already handled above for required files
+            continue;
+        }
+
+        if ($file['error'] !== UPLOAD_ERR_OK) {
+            $errors[$field] = 'Error uploading file. Please try again.';
+            continue;
+        }
+
+        if (isset($file['size']) && $file['size'] > $maxFileSize) {
+            $errors[$field] = 'File must be 5MB or smaller.';
+        }
+    }
+
     // Check terms agreement
     if (!Helpers::post('agree_terms')) {
         $errors['agree_terms'] = 'You must agree to the Terms of Services';
@@ -857,15 +886,27 @@ $validCategories = [
             { input: 'stall_logo', display: 'logo_file_name' }
         ];
         
+        const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
+
         fileInputs.forEach(({ input, display }) => {
             const inputEl = document.getElementById(input);
             const displayEl = document.getElementById(display);
             
             inputEl.addEventListener('change', function() {
                 if (this.files && this.files[0]) {
-                    displayEl.textContent = '✓ ' + this.files[0].name;
+                    const file = this.files[0];
+                    if (file.size > MAX_FILE_SIZE) {
+                        // Clear the selection and show an error
+                        this.value = '';
+                        displayEl.textContent = 'File too large (max 5MB)';
+                        displayEl.style.color = '#dc3545';
+                    } else {
+                        displayEl.textContent = '✓ ' + file.name;
+                        displayEl.style.color = '#489A44';
+                    }
                 } else {
                     displayEl.textContent = '';
+                    displayEl.style.color = '';
                 }
             });
         });

@@ -1,10 +1,10 @@
 <?php
 /**
  * BuzzarFeed - Login Page (Using Modular Architecture)
- * 
+ *
  * User login page using new component system
  * Following ISO 9241: Maintainability, Reusability, Extensibility
- * 
+ *
  * @package BuzzarFeed
  * @version 2.0
  * @author BuzzarFeed Development Team
@@ -47,34 +47,34 @@ if (Helpers::isPost()) {
     // Get form data
     $email = Helpers::sanitize(Helpers::post('email', ''));
     $password = Helpers::post('password', '');
-    
+
     // Validation
     if (empty($email)) {
         $errors[] = "Email is required.";
     } elseif (!Helpers::validateEmail($email)) {
         $errors[] = "Invalid email format.";
     }
-    
+
     if (empty($password)) {
         $errors[] = "Password is required.";
     }
-    
+
     // If no errors, process login
     if (empty($errors)) {
         try {
             // Get database instance
             $db = Database::getInstance();
-            
+
             // Get user by email with user type information
             $user = $db->querySingle(
-                "SELECT u.user_id, u.name, u.email, u.hashed_password, u.user_type_id, u.is_active, 
+                "SELECT u.user_id, u.name, u.email, u.hashed_password, u.user_type_id, u.is_active,
                         ut.type_name
                  FROM users u
                  INNER JOIN user_types ut ON u.user_type_id = ut.user_type_id
                  WHERE u.email = ?",
                 [$email]
             );
-            
+
             if (!$user) {
                 $errors[] = "Invalid email or password.";
             } elseif (!$user['is_active']) {
@@ -89,15 +89,15 @@ if (Helpers::isPost()) {
                 Session::set('user_type_id', $user['user_type_id']);
                 Session::set('user_type', $user['type_name']);
                 Session::regenerate();
-                
+
                 Session::setFlash('Welcome back, ' . $user['name'] . '!', 'success');
-                
+
                 // Redirect to homepage
                 Helpers::redirect('index.php');
             }
         } catch (\Exception $e) {
             error_log("Login Error: " . $e->getMessage());
-            
+
             // Show detailed error in development mode
             if (defined('DEVELOPMENT_MODE') && DEVELOPMENT_MODE) {
                 $errors[] = "Login Error: " . $e->getMessage();
@@ -117,19 +117,19 @@ if (Helpers::isPost()) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="<?= Helpers::escape($pageDescription) ?>">
     <title><?= Helpers::escape($pageTitle) ?></title>
-    
+
     <!-- Favicon -->
     <link rel="icon" type="image/png" href="<?= IMAGES_URL ?>/favicon.png">
-    
+
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://api.fontshare.com/v2/css?f[]=geist@400,500,600,700&display=swap" rel="stylesheet">
-    
+
     <!-- Font Awesome for icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
+
     <!-- Modular CSS Architecture -->
     <link rel="stylesheet" href="<?= CSS_URL ?>/variables.css">
     <link rel="stylesheet" href="<?= CSS_URL ?>/base.css">
@@ -148,16 +148,10 @@ if (Helpers::isPost()) {
         <div class="container login-container">
             <!-- Left Side - Login Form -->
             <div class="login-form-wrapper">
-                <?php 
-                // Back button using Button component
-                echo Button::make([
-                    'text' => 'Back',
-                    'href' => 'index.php',
-                    'variant' => Button::VARIANT_OUTLINE,
-                    'icon' => 'fas fa-arrow-left',
-                    'class' => 'back-link'
-                ])->render();
-                ?>
+                <a href="index.php" class="back-link">
+                    <i class="fas fa-arrow-left" aria-hidden="true"></i>
+                    <span>Back</span>
+                </a>
 
                 <h1 class="login-title">Log In</h1>
                 <p class="login-subtitle">
@@ -215,7 +209,7 @@ if (Helpers::isPost()) {
                     echo Button::make([
                         'text' => 'SIGN IN',
                         'type' => 'submit',
-                        'variant' => Button::VARIANT_PRIMARY,
+                        'variant' => Button::VARIANT_SECONDARY,
                         'size' => Button::SIZE_LARGE,
                         'class' => 'btn-full btn-submit'
                     ])->render();
@@ -225,17 +219,7 @@ if (Helpers::isPost()) {
 
             <!-- Right Side - Illustration -->
             <div class="login-visual">
-                <div class="polaroid-stack-login">
-                    <div class="polaroid polaroid-login-1">
-                        <div class="polaroid-img"></div>
-                    </div>
-                    <div class="polaroid polaroid-login-2">
-                        <div class="polaroid-img"></div>
-                    </div>
-                    <div class="polaroid polaroid-login-3">
-                        <div class="polaroid-img"></div>
-                    </div>
-                </div>
+              <img src="../assets/images/Login-Image.png" alt="Login illustration">
             </div>
         </div>
     </section>

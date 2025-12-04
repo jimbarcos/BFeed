@@ -22,7 +22,7 @@ class StallRegistrationService
     {
         $this->db = Database::getInstance();
     }
-    
+
     /**
      * Check if user has a pending application
      * 
@@ -39,7 +39,7 @@ class StallRegistrationService
         
         return !empty($pendingApp);
     }
-    
+
     /**
      * Validate stall registration data
      * 
@@ -76,7 +76,7 @@ class StallRegistrationService
         
         return $errors;
     }
-    
+
     /**
      * Validate uploaded file
      * 
@@ -134,8 +134,8 @@ class StallRegistrationService
         
         return 'uploads/applications/' . $stallSlug . '/' . $filename;
     }
-    
-    /**
+
+     /**
      * Create stall application
      * 
      * @param int $userId

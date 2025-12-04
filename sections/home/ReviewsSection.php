@@ -74,23 +74,43 @@ class ReviewsSection extends BaseComponent {
      * @return string Rendered HTML
      */
     protected function renderReviewCard(array $review): string {
+        $readMoreLink = '#';
+        if (!empty($review['stall_id'])) {
+            $readMoreLink = 'stall-detail.php?id=' . $review['stall_id'];
+        }
+        
         $readMoreButton = new Button([
             'text' => 'Read more',
-            'href' => '#',
+            'href' => $readMoreLink,
             'variant' => Button::VARIANT_OUTLINE,
-            'class' => 'review-readmore',
-            'icon' => 'fas fa-arrow-right'
+            'class' => 'review-readmore'
         ]);
+
+        // Display stall logo in avatar circle
+        $avatarHtml = '';
+        $stallLogoPath = !empty($review['stall_logo']) ? BASE_URL . $review['stall_logo'] : null;
+        
+        if (!empty($stallLogoPath)) {
+            $avatarHtml = '<div class="reviewer-avatar"><img src="' . Helpers::escape($stallLogoPath) . '" alt="' . Helpers::escape($review['stall_name'] ?? '') . '" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;"></div>';
+        } else {
+            // Default placeholder icon if no logo
+            $avatarHtml = '<div class="reviewer-avatar" style="background-color: rgba(255, 255, 255, 0.95); display: flex; align-items: center; justify-content: center;"><i class="fas fa-store" style="font-size: 1.8rem; color: #666;"></i></div>';
+        }
 
         return '
         <article class="review-card">
-            <div class="reviewer-avatar"></div>
+            <div class="review-header-row">
+                ' . $avatarHtml . '
+                <div class="review-stall-info">
+                    <h4 class="reviewer-name">' . Helpers::escape($review['reviewer'] ?? '') . '</h4>
+                    ' . (!empty($review['stall_name']) ? '<p class="review-stall-name" title="' . Helpers::escape($review['stall_name']) . '"><i class="fas fa-store"></i> ' . Helpers::escape($review['stall_name']) . '</p>' : '') . '
+                </div>
+            </div>
             <div class="review-content">
-                <h4 class="reviewer-name">' . Helpers::escape($review['reviewer'] ?? '') . '</h4>
                 <p class="review-text">"' . Helpers::escape($review['text'] ?? '') . '"</p>
                 <div class="review-footer">
                     <div class="review-rating">
-                        <span class="rating-value">' . Helpers::escape($review['rating'] ?? '4.9') . '</span>
+                        <span class="rating-value">' . Helpers::escape($review['rating'] ?? '0.0') . '</span>
                         <img src="' . IMAGES_URL . 'star-rating.svg" alt="rating star" class="rating-star">
                     </div>
                     ' . $readMoreButton->render() . '

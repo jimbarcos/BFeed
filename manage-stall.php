@@ -296,52 +296,33 @@ $menuItems = $db->query(
     [$stall['stall_id']]
 );
 
-// Hardcoded reviews for now (will be dynamic later)
-$reviews = [
-    [
-        'id' => 1,
-        'rating' => 5,
-        'title' => 'Masarap',
-        'username' => 'kengseldigi',
-        'date' => 'Aug 2, 2025',
-        'comment' => 'Masarap talaga mapadobo yung' . ' nagserve. Ano naman?'
-    ],
-    [
-        'id' => 2,
-        'rating' => 4,
-        'title' => 'POGI NG NAGTITINDA',
-        'username' => 'Anonymous',
-        'date' => 'Aug 1, 2025',
-        'comment' => 'Sobrang lupet nag lasa ng sesoo tayat nanalo ang boy!'
-    ],
-    [
-        'id' => 3,
-        'rating' => 4,
-        'title' => 'ANG SARAP SOBRA!!!',
-        'username' => 'citrus',
-        'date' => 'July 3, 2025',
-        'comment' => 'Maya\'o akong mga mabanas\' kaya\'t ba nag magpalihat? Ayan me bang mangangal sa kanya linhay? Manggi\' ng wrong kadit may na\'ang Chorus) kainit mayam kang buring tinamalo!! Kung kagod\' ako\'d nid nag pinigsane!!! Nguni\' ganon pa nitak nak para makasiyona kang lang sa ayo'
-    ],
-    [
-        'id' => 4,
-        'rating' => 4,
-        'title' => 'Akin na uubusin yung nagserve',
-        'username' => 'hemycinagositas',
-        'date' => 'July 2, 2025',
-        'comment' => 'Sobrang ya sa sahara... Naganam ko ba: urni pa ng ma nga... May PAPAYA darg ba yan. Tsk. Masait uman.ew Mdutu'
-    ]
+// Fetch reviews for this stall dynamically
+$reviews = $db->query(
+    "SELECT r.*, u.name as username
+     FROM reviews r
+     INNER JOIN users u ON r.user_id = u.user_id
+     WHERE r.stall_id = ? AND r.is_hidden = 0
+     ORDER BY r.created_at DESC",
+    [$stall['stall_id']]
+);
+
+// Calculate rating distribution from actual reviews
+$ratingDistribution = [
+    5 => 0,
+    4 => 0,
+    3 => 0,
+    2 => 0,
+    1 => 0
 ];
 
-// Calculate rating distribution
-$ratingDistribution = [
-    5 => 45,
-    4 => 76,
-    3 => 93,
-    2 => 17,
-    1 => 5
-];
+foreach ($reviews as $review) {
+    if (isset($ratingDistribution[$review['rating']])) {
+        $ratingDistribution[$review['rating']]++;
+    }
+}
+
 $totalRatings = array_sum($ratingDistribution);
-$averageRating = 4.3;
+$averageRating = $totalRatings > 0 ? round($stall['average_rating'], 1) : 0;
 
 $pageTitle = "Manage Your Stall - BuzzarFeed";
 $pageDescription = "Manage your stall information, menu items, and customer reviews";
@@ -443,8 +424,8 @@ $pageDescription = "Manage your stall information, menu items, and customer revi
                             <!-- Stall Name -->
                             <div class="form-group">
                                 <label for="stall_name" class="form-label">Stall Name</label>
-                                <input type="text" id="stall_name" name="stall_name" class="form-input" 
-                                       value="<?= Helpers::escape($stall['name']) ?>\" required>
+                                    <input type="text" id="stall_name" name="stall_name" class="form-input" 
+                                        value="<?= Helpers::escape($stall['name']) ?>" required>
                             </div>
                             
                             <!-- Stall Description -->
@@ -671,7 +652,7 @@ $pageDescription = "Manage your stall information, menu items, and customer revi
                                         <i class="fas fa-star star-icon"></i>
                                         <div class="rating-bar-bg">
                                             <div class="rating-bar-fill" 
-                                                 style="width: <?= ($ratingDistribution[$i] / $totalRatings) * 100 ?>%"></div>
+                                                 style="width: <?= $totalRatings > 0 ? ($ratingDistribution[$i] / $totalRatings) * 100 : 0 ?>%"></div>
                                         </div>
                                         <span class="rating-count"><?= $ratingDistribution[$i] ?></span>
                                     </div>
@@ -700,24 +681,35 @@ $pageDescription = "Manage your stall information, menu items, and customer revi
                         
                         <!-- Individual Reviews -->
                         <div class="reviews-list">
-                            <?php foreach ($reviews as $review): ?>
-                                <div class="review-card">
-                                    <div class="review-header">
-                                        <div class="review-stars">
-                                            <?php for ($i = 1; $i <= 5; $i++): ?>
-                                                <i class="fas fa-star <?= $i <= $review['rating'] ? '' : 'empty' ?>"></i>
-                                            <?php endfor; ?>
-                                        </div>
-                                        <span class="review-date"><?= Helpers::escape($review['date']) ?></span>
-                                    </div>
-                                    <h4 class="review-title"><?= Helpers::escape($review['title']) ?></h4>
-                                    <div class="review-author">
-                                        <i class="fas fa-user-circle"></i>
-                                        <?= Helpers::escape($review['username']) ?>
-                                    </div>
-                                    <p class="review-comment"><?= Helpers::escape($review['comment']) ?></p>
+                            <?php if (empty($reviews)): ?>
+                                <div class="no-items-message">
+                                    <i class="fas fa-comment-slash"></i>
+                                    <p>No reviews yet. Customers can leave reviews after visiting your stall.</p>
                                 </div>
-                            <?php endforeach; ?>
+                            <?php else: ?>
+                                <?php foreach ($reviews as $review): ?>
+                                    <div class="review-card">
+                                        <div class="review-header">
+                                            <div class="review-stars">
+                                                <?php for ($i = 1; $i <= 5; $i++): ?>
+                                                    <i class="fas fa-star <?= $i <= $review['rating'] ? '' : 'empty' ?>"></i>
+                                                <?php endfor; ?>
+                                            </div>
+                                            <span class="review-date"><?= date('M j, Y', strtotime($review['created_at'])) ?></span>
+                                        </div>
+                                        <h4 class="review-title"><?= Helpers::escape($review['title'] ?? 'Review') ?></h4>
+                                        <div class="review-author">
+                                            <i class="fas fa-user-circle"></i>
+                                            <?php if ($review['is_anonymous']): ?>
+                                                Anonymous
+                                            <?php else: ?>
+                                                <?= Helpers::escape($review['username']) ?>
+                                            <?php endif; ?>
+                                        </div>
+                                        <p class="review-comment"><?= Helpers::escape($review['comment']) ?></p>
+                                    </div>
+                                <?php endforeach; ?>
+                            <?php endif; ?>
                         </div>
                         
                         <!-- Pagination -->

@@ -54,8 +54,7 @@ class FeaturedStallsSection extends BaseComponent {
             'text' => 'Browse',
             'href' => 'stalls.php',
             'variant' => Button::VARIANT_SECONDARY,
-            'class' => 'btn-browse',
-            'icon' => 'fas fa-arrow-up-right-from-square'
+            'class' => 'btn-browse'
         ]);
 
         $html = '
@@ -97,14 +96,32 @@ class FeaturedStallsSection extends BaseComponent {
     protected function renderStallCard(array $stall): string {
         $viewButton = new Button([
             'text' => 'View details',
-            'href' => 'stall-details.php?id=' . ($stall['id'] ?? ''),
+            'href' => 'stall-detail.php?id=' . ($stall['id'] ?? ''),
             'class' => 'stall-card-action'
         ]);
+
+        // Determine image source - use image field (which maps from logo_path)
+        $imageHtml = '';
+        $imagePath = $stall['image'] ?? null;
+        
+        // Debug: log what we're getting
+        error_log("Featured Stall: " . ($stall['name'] ?? 'Unknown') . " | Image Path: " . var_export($imagePath, true));
+        
+        if (!empty($imagePath)) {
+            // Prepend BASE_URL to the logo path from database
+            $fullImagePath = BASE_URL . $imagePath;
+            error_log("Full Image Path: " . $fullImagePath);
+            $imageHtml = '<img src="' . Helpers::escape($fullImagePath) . '" alt="' . Helpers::escape($stall['name']) . '" class="stall-image" style="width: 100%; height: 100%; object-fit: cover; background: #f0f0f0;">';
+        } else {
+            // No logo available - show a neutral placeholder
+            error_log("No image path for stall: " . ($stall['name'] ?? 'Unknown'));
+            $imageHtml = '<div style="width: 100%; height: 100%; background: #f0f0f0; display: flex; align-items: center; justify-content: center; color: #999;"><i class="fas fa-store" style="font-size: 3rem;"></i></div>';
+        }
 
         return '
         <article class="stall-card">
             <div class="stall-card-header">
-                <div class="stall-image-placeholder"></div>
+                ' . $imageHtml . '
             </div>
             <div class="stall-card-overlay">
                 <h3 class="stall-label-name">' . Helpers::escape($stall['name'] ?? '') . '</h3>
@@ -119,32 +136,5 @@ class FeaturedStallsSection extends BaseComponent {
         </article>';
     }
 
-    /**
-     * Render placeholder stalls
-     *
-     * @return string Rendered HTML
-     */
-    protected function renderPlaceholderStalls(): string {
-        $placeholders = [
-            [
-                'id' => 1,
-                'name' => 'Kape Kuripot',
-                'hours' => 'Monday to Saturday 09:00 to 18:00',
-                'description' => 'Lorem ipsum dolor sit amet. Est magnam possimus in odio quis sed assumenda odio quis impedit.'
-            ],
-            [
-                'id' => 2,
-                'name' => 'Kape Kuripot',
-                'hours' => 'Monday to Saturday 09:00 to 18:00',
-                'description' => 'Lorem ipsum dolor sit amet. Est magnam possimus in odio quis sed assumenda odio quis impedit.'
-            ]
-        ];
-
-        $html = '';
-        foreach ($placeholders as $stall) {
-            $html .= $this->renderStallCard($stall);
-        }
-
-        return $html;
-    }
+    
 }

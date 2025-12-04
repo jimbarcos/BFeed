@@ -1,0 +1,29 @@
+# BuzzarFeed .htaccess Configuration
+# Works for both subdirectory and root installations
+
+# Enable Rewrite Engine
+RewriteEngine On
+
+# Set RewriteBase to the subdirectory path
+# For XAMPP: /buzzarfeed/
+RewriteBase /buzzarfeed/
+
+# Custom Error Pages
+ErrorDocument 400 /buzzarfeed/error/400.php
+ErrorDocument 401 /buzzarfeed/error/401.php
+ErrorDocument 403 /buzzarfeed/error/403.php
+ErrorDocument 404 /buzzarfeed/error/404.php
+ErrorDocument 500 /buzzarfeed/error/500.php
+ErrorDocument 503 /buzzarfeed/error/503.php
+
+# Disable Directory Browsing
+Options -Indexes
+
+# Protect sensitive files
+<FilesMatch "^(config\.php|\.htaccess|\.env)$">
+    Order allow,deny
+    Deny from all
+</FilesMatch>
+
+# Charset
+AddDefaultCharset UTF-8

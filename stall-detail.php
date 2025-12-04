@@ -305,24 +305,19 @@ $currentTab = Helpers::get('tab', 'menu');
     <link rel="stylesheet" href="<?= CSS_URL ?>/styles.css">
     <link rel="stylesheet" href="<?= CSS_URL ?>/stall-detail.css">
 </head>
-<body>
+<body style="background-color: #d65520;">
     <!-- Header -->
     <?php include __DIR__ . '/includes/header.php'; ?>
     
     <!-- Main Content -->
     <main>
-        <!-- Back Button -->
-        <section class="back-section">
-            <div class="container">
-                <a href="stalls.php" class="back-btn">
-                    <i class="fas fa-arrow-left"></i> Back to Stalls
-                </a>
-            </div>
-        </section>
-        
         <!-- Stall Header -->
         <section class="stall-header">
             <div class="container">
+                <!-- Back Button inside header -->
+                <a href="stalls.php" class="back-btn">
+                    <i class="fas fa-arrow-left"></i> Back to Stalls
+                </a>
                 <div class="stall-header-content">
                     <div class="stall-logo">
                         <?php if (!empty($stall['logo_path'])): ?>
@@ -343,17 +338,21 @@ $currentTab = Helpers::get('tab', 'menu');
                         </div>
                         
                         <div class="stall-meta">
-                            <div class="meta-item">
-                                <i class="far fa-clock"></i>
-                                <span><strong>Operating Hours:</strong> <?= Helpers::escape($stall['hours'] ?? '9:00 AM - 10:00 PM') ?></span>
-                            </div>
-                            <div class="meta-item">
-                                <i class="fas fa-user"></i>
-                                <span><strong>Owner:</strong> <?= Helpers::escape($stall['name']) ?></span>
-                            </div>
-                            <div class="meta-item">
-                                <i class="fas fa-map-marker-alt"></i>
-                                <span><strong>Located at:</strong> <?= Helpers::escape($stall['address'] ?? 'BGC Night Market') ?></span>
+                                <div class="meta-item">
+                                    <i class="far fa-clock"></i>
+                                    <span class="meta-label">Operating Hours:</span>
+                                    <span class="meta-value"><?= Helpers::escape($stall['hours'] ?? '9:00 AM - 10:00 PM') ?></span>
+                                </div>
+                                <div class="meta-item">
+                                    <i class="fas fa-user"></i>
+                                    <span class="meta-label">Owner:</span>
+                                     <span class="meta-value"><?= Helpers::escape($stall['owner_name'] ?? $stall['name'] ?? 'Unknown') ?></span>
+                                </div>
+                                <div class="meta-item">
+                                    <i class="fas fa-map-marker-alt"></i>
+                                    <span class="meta-label">Located at:</span>
+                                    <span class="meta-value"><?= Helpers::escape($stall['address'] ?? 'BGC Night Market') ?></span>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -361,73 +360,77 @@ $currentTab = Helpers::get('tab', 'menu');
             </div>
         </section>
         
-        <!-- Tabs Navigation -->
-        <section class="tabs-section">
-            <div class="container">
-                <div class="tabs">
-                    <a href="?id=<?= $stallId ?>&tab=menu" class="tab-btn <?= $currentTab === 'menu' ? 'active' : '' ?>">
-                        Menu Items
-                    </a>
-                    <a href="?id=<?= $stallId ?>&tab=reviews" class="tab-btn <?= $currentTab === 'reviews' ? 'active' : '' ?>">
-                        Reviews
-                    </a>
-                </div>
-            </div>
-        </section>
-        
+
+
+                    
+    
         <!-- Tab Content -->
         <section class="tab-content-section">
             <div class="container">
-                <?php if ($currentTab === 'menu'): ?>
-                    <!-- Menu Items Tab -->
-                    <div class="content-card">
-                        <?php if (empty($menuItems)): ?>
-                            <div class="no-menu-items">
-                                <i class="fas fa-utensils"></i>
-                                <h3>No Menu Items Available</h3>
-                                <p>This stall hasn't added any menu items yet.</p>
-                            </div>
-                        <?php else: ?>
-                            <?php 
-                            // Group by categories from food_categories JSON
-                            $itemsByCategory = [];
-                            foreach ($menuItems as $item) {
-                                $cat = 'Uncategorized';
-                                $itemsByCategory[$cat][] = $item;
-                            }
-                            
-                            foreach ($itemsByCategory as $categoryName => $items): 
-                            ?>
-                                <div class="menu-category-section">
-                                    <h2 class="category-title"><?= Helpers::escape($categoryName) ?></h2>
-                                    <div class="menu-items-grid">
-                                        <?php foreach ($items as $item): ?>
-                                            <div class="menu-item-card">
-                                                <div class="menu-item-image">
-                                                    <?php if (!empty($item['image_path'])): ?>
-                                                        <img src="<?= BASE_URL . Helpers::escape($item['image_path']) ?>" alt="<?= Helpers::escape($item['name']) ?>">
-                                                    <?php else: ?>
-                                                        <div class="no-image"><i class="fas fa-image"></i></div>
-                                                    <?php endif; ?>
-                                                </div>
-                                                <div class="menu-item-info">
-                                                    <h4><?= Helpers::escape($item['name']) ?></h4>
-                                                    <?php if (!empty($item['description'])): ?>
-                                                        <p class="item-desc"><?= Helpers::escape($item['description']) ?></p>
-                                                    <?php endif; ?>
-                                                    <p class="item-price">₱<?= number_format($item['price'], 2) ?></p>
-                                                </div>
-                                            </div>
-                                        <?php endforeach; ?>
-                                    </div>
-                                </div>
-                            <?php endforeach; ?>
-                        <?php endif; ?>
+
+                <div class="content-card">
+                    <div class="tabs">
+                        <a href="?id=<?= $stallId ?>&tab=menu" 
+                        class="tab-btn <?= $currentTab === 'menu' ? 'active' : '' ?>">
+                            Menu Items
+                        </a>
+
+                        <a href="?id=<?= $stallId ?>&tab=reviews" 
+                        class="tab-btn <?= $currentTab === 'reviews' ? 'active' : '' ?>">
+                            Reviews
+                        </a>
                     </div>
-                    
+
+            <!-- Tab Content Area -->
+            <?php if ($currentTab === 'menu'): ?>
+
+                <!-- Menu Items Tab -->
+                <?php if (empty($menuItems)): ?>
+                    <div class="no-menu-items">
+                        <i class="fas fa-utensils"></i>
+                        <h3>No Menu Items Available</h3>
+                        <p>This stall hasn't added any menu items yet.</p>
+                    </div>
                 <?php else: ?>
+
+                    <?php 
+                    $itemsByCategory = [];
+                    foreach ($menuItems as $item) {
+                        $cat = 'Uncategorized';
+                        $itemsByCategory[$cat][] = $item;
+                    }
+                    
+                    foreach ($itemsByCategory as $categoryName => $items): 
+                    ?>
+                        <div class="menu-category-section">
+                            <h2 class="category-title"><?= Helpers::escape($categoryName) ?></h2>
+                            <div class="menu-items-grid">
+                                <?php foreach ($items as $item): ?>
+                                    <div class="menu-item-card">
+                                        <div class="menu-item-image">
+                                            <?php if (!empty($item['image_path'])): ?>
+                                                <img src="<?= BASE_URL . Helpers::escape($item['image_path']) ?>" alt="<?= Helpers::escape($item['name']) ?>">
+                                            <?php else: ?>
+                                                <div class="no-image"><i class="fas fa-image"></i></div>
+                                            <?php endif; ?>
+                                        </div>
+                                        <div class="menu-item-info">
+                                            <h4><?= Helpers::escape($item['name']) ?></h4>
+                                            <?php if (!empty($item['description'])): ?>
+                                                <p class="item-desc"><?= Helpers::escape($item['description']) ?></p>
+                                            <?php endif; ?>
+                                            <p class="item-price">₱<?= number_format($item['price'], 2) ?></p>
+                                        </div>
+                                    </div>
+                                <?php endforeach; ?>
+                            </div>
+                        </div>
+                    <?php endforeach; ?>
+
+                <?php endif; ?>
+
+                 <?php else: ?>
                     <!-- Reviews Tab -->
-                    <div class="content-card">
                         <h2 class="content-title">Reviews & Ratings</h2>
                         
                         <!-- Rating Summary -->
@@ -464,18 +467,12 @@ $currentTab = Helpers::get('tab', 'menu');
                                 <div class="total-ratings"><?= $totalReviews ?> Ratings</div>
                             </div>
                         </div>
-                        
-                        <!-- Write Review Button -->
-                        <?php if (Session::isLoggedIn() && Session::get('user_id') != $stall['owner_id']): ?>
-                            <button class="btn-write-review" onclick="openReviewModal()">
-                                <i class="fas fa-pen"></i> Write a Review
-                            </button>
-                        <?php endif; ?>
+        
                         
                         <!-- Filters and Sort -->
+                        <div class="review-controls">
                         <div class="review-filters">
                             <div class="filter-group">
-                                <label>Filter by Rating:</label>
                                 <select id="ratingFilter" onchange="applyFilters()">
                                     <option value="all" <?= $filterRating === '' || $filterRating === 'all' ? 'selected' : '' ?>>All Ratings</option>
                                     <option value="5" <?= $filterRating === '5' ? 'selected' : '' ?>>★★★★★ (5)</option>
@@ -484,9 +481,10 @@ $currentTab = Helpers::get('tab', 'menu');
                                     <option value="2" <?= $filterRating === '2' ? 'selected' : '' ?>>★★ (2)</option>
                                     <option value="1" <?= $filterRating === '1' ? 'selected' : '' ?>>★ (1)</option>
                                 </select>
+                                <i class="fas fa-chevron-down select-arrow"></i>
                             </div>
+
                             <div class="filter-group">
-                                <label>Sort by:</label>
                                 <select id="sortFilter" onchange="applyFilters()">
                                     <option value="newest" <?= $sortBy === 'newest' ? 'selected' : '' ?>>Newest First</option>
                                     <option value="oldest" <?= $sortBy === 'oldest' ? 'selected' : '' ?>>Oldest First</option>
@@ -495,8 +493,18 @@ $currentTab = Helpers::get('tab', 'menu');
                                     <option value="most_liked" <?= $sortBy === 'most_liked' ? 'selected' : '' ?>>Most Liked</option>
                                     <option value="most_disliked" <?= $sortBy === 'most_disliked' ? 'selected' : '' ?>>Most Disliked</option>
                                 </select>
+                                <i class="fas fa-chevron-down select-arrow"></i>
                             </div>
                         </div>
+                        
+                        <!-- Write review button -->
+                        <?php if (Session::isLoggedIn() && Session::get('user_id') != $stall['owner_id']): ?>
+                            <button class="btn-write-review" onclick="openReviewModal()">
+                                <i class="fas fa-pen"></i> Write a Review
+                            </button>
+                        <?php endif; ?>
+                    </div>
+
                         
                         <!-- Reviews List -->
                         <div class="reviews-list">

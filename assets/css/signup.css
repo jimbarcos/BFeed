@@ -1,8 +1,8 @@
 /**
  * BuzzarFeed - Sign Up Page Styles
- * 
+ *
  * Styling for the user registration page
- * 
+ *
  * @package BuzzarFeed
  * @version 1.0
  */
@@ -11,72 +11,47 @@
    SIGNUP PAGE LAYOUT
    =============================================== */
 
-.signup-page {
-    background-color: var(--color-primary-beige);
-}
-
 .signup-section {
+    background-color: var(--color-primary-beige);
     min-height: calc(100vh - 80px);
-    padding: var(--spacing-xl) 0;
+    padding: 0 0 var(--spacing-xl) 0;
     display: flex;
-    align-items: center;
+    align-items: stretch;
+    justify-content: center;
+    position: relative;
 }
 
 .signup-container {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1.1fr 1fr;  /* LEFT: image | RIGHT: form  */
     gap: var(--spacing-xxl);
     align-items: center;
     max-width: 1200px;
+    margin: 0 auto;
+    position: relative;
+    min-height: 100%;
 }
 
-/* ===============================================
-   LEFT SIDE - POLAROID IMAGES
-   =============================================== */
+.signup-section::before {
+    content: "";
+    position: absolute;
+    left: 50%;
+    top: 0;
+    bottom: 0;
+    width: 5px;
+    background-color: var(--color-dark);
+    transform: translateX(-50%);
+    pointer-events: none;
+}
+
+.signup-visual img {
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+}
 
 .signup-visual {
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    padding-left: var(--spacing-xl);
-    min-height: 500px;
-    position: relative;
-}
-
-.polaroid-stack {
-    position: relative;
-    width: 320px;
-    height: 420px;
-}
-
-.polaroid-signup-1 {
-    position: absolute;
-    top: 20px;
-    left: -150px;
-    transform: rotate(-15deg);
-    z-index: 1;
-    width: 200px;
-    height: 240px;
-}
-
-.polaroid-signup-2 {
-    position: absolute;
-    top: 20px;
-    left: 200px;
-    transform: rotate(15deg);
-    z-index: 2;
-    width: 200px;
-    height: 240px;
-}
-
-.polaroid-signup-3 {
-    position: absolute;
-    top: 160px;
-    left: 30px;
-    transform: rotate(-5deg);
-    z-index: 3;
-    width: 200px;
-    height: 240px;
+    margin-right: var(--spacing-lg);
 }
 
 /* ===============================================
@@ -113,8 +88,8 @@
 
 .signup-subtitle {
     font-size: 1rem;
-    color: var(--color-text-light);
-    margin-bottom: var(--spacing-xl);
+    color: var(--color-text-dark);
+    margin-bottom: var(--spacing-md);
 }
 
 .link-orange {
@@ -135,7 +110,7 @@
 .signup-form {
     display: flex;
     flex-direction: column;
-    gap: var(--spacing-md);
+    gap: 0.75rem;
 }
 
 .form-group {
@@ -156,8 +131,8 @@
     font-size: 1rem;
     font-family: var(--font-primary);
     color: var(--color-dark);
-    background-color: var(--color-white);
-    border: 2px solid rgba(44, 44, 44, 0.25);
+    background-color: var(--color-light);
+    border: 2px solid var(--color-dark);
     border-radius: 8px;
     transition: border-color var(--transition-fast);
 }
@@ -185,12 +160,26 @@
     border: none;
     color: var(--color-text-light);
     cursor: pointer;
-    padding: 0.5rem;
+    padding: 8px;
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     transition: color var(--transition-fast);
+    z-index: 10;
 }
 
 .password-toggle:hover {
-    color: var(--color-dark);
+    color: var(--color-orange);
+}
+
+.password-toggle:focus {
+    outline: none;
+    color: var(--color-orange);
+}
+
+.password-toggle i {
+    pointer-events: none;
 }
 
 /* Radio Buttons */
@@ -221,10 +210,14 @@
     user-select: none;
 }
 
+.radio-option input[type="radio"]:checked + .radio-label {
+    color: var(--color-green);
+}
+
 .radio-dot {
     width: 20px;
     height: 20px;
-    border: 2px solid var(--color-green);
+    border: 2px solid var(--color-dark);
     border-radius: 50%;
     position: relative;
     transition: all var(--transition-fast);
@@ -232,6 +225,7 @@
 
 .radio-option input[type="radio"]:checked + .radio-label .radio-dot {
     background-color: var(--color-green);
+    border-color: var(--color-dark);
 }
 
 .radio-option input[type="radio"]:checked + .radio-label .radio-dot::after {
@@ -242,7 +236,7 @@
     transform: translate(-50%, -50%);
     width: 8px;
     height: 8px;
-    background-color: var(--color-white);
+    background-color: var(--color-green);
     border-radius: 50%;
 }
 
@@ -274,7 +268,7 @@
     width: 20px;
     height: 20px;
     min-width: 20px;
-    border: 2px solid var(--color-green);
+    border: 2px solid var(--color-dark);
     border-radius: 4px;
     position: relative;
     transition: all var(--transition-fast);
@@ -283,6 +277,7 @@
 
 .checkbox-option input[type="checkbox"]:checked + .checkbox-label .checkbox-box {
     background-color: var(--color-green);
+    border-color: var(--color-dark);
 }
 
 .checkbox-option input[type="checkbox"]:checked + .checkbox-label .checkbox-box::after {
@@ -293,7 +288,7 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    color: var(--color-white);
+    color: var(--color-dark);
     font-size: 12px;
 }
 
@@ -361,10 +356,6 @@
     .signup-container {
         grid-template-columns: 1fr;
         gap: var(--spacing-lg);
-    }
-
-    .signup-visual {
-        display: none;
     }
 
     .signup-form-wrapper {

@@ -184,6 +184,41 @@ class StallService
     }
     
     /**
+     * Get random stalls for featured section
+     * 
+     * @param int $limit
+     * @return array
+     */
+    public function getRandomStalls(int $limit = 6): array
+    {
+        $query = "SELECT 
+                    fs.stall_id,
+                    fs.name,
+                    fs.description,
+                    fs.logo_path,
+                    fs.food_categories,
+                    fs.hours,
+                    COALESCE(AVG(r.rating), 0) as average_rating,
+                    COUNT(r.review_id) as total_reviews,
+                    sl.address,
+                    sl.latitude,
+                    sl.longitude
+                  FROM food_stalls fs
+                  LEFT JOIN stall_locations sl ON fs.stall_id = sl.stall_id
+                  LEFT JOIN reviews r ON fs.stall_id = r.stall_id
+                  WHERE fs.is_active = 1
+                  GROUP BY fs.stall_id, fs.name, fs.description, fs.logo_path, fs.food_categories, fs.hours, sl.address, sl.latitude, sl.longitude
+                  ORDER BY RAND()
+                  LIMIT ?";
+        
+        $stalls = $this->db->query($query, [$limit]);
+        
+        return array_map(function($stall) {
+            return $this->formatStallData($stall);
+        }, $stalls);
+    }
+    
+    /**
      * Get all unique food categories from active stalls
      * 
      * @return array

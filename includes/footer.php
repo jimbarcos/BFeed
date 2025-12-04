@@ -18,8 +18,8 @@ $currentYear = date('Y');
         <div class="footer-content">
             <!-- About Section -->
             <div class="footer-about">
-                <a href="<?= BASE_URL ?>" class="footer-logo">
-                    <img src="<?= IMAGES_URL ?>Logo-Footer.png" alt="BuzzarFeed" class="footer-logo-img">
+                <a href="index.php" class="footer-logo">
+                    <img src="<?= IMAGES_URL ?>/Logo-Footer.png" alt="BuzzarFeed" class="footer-logo-img" style="height:60px; display:block;">
                 </a>
                 <p class="footer-description">
                     BuzzarFeed is your go-to platform for discovering the best food stalls 
@@ -33,22 +33,12 @@ $currentYear = date('Y');
                 <h4>Discover</h4>
                 <ul class="footer-links">
                     <li>
-                        <a href="<?= BASE_URL ?>stalls.php" class="footer-link">
+                        <a href="stalls.php" class="footer-link">
                             All Stalls
                         </a>
                     </li>
                     <li>
-                        <a href="<?= BASE_URL ?>categories.php" class="footer-link">
-                            Categories
-                        </a>
-                    </li>
-                    <li>
-                        <a href="<?= BASE_URL ?>featured.php" class="footer-link">
-                            Featured Stalls
-                        </a>
-                    </li>
-                    <li>
-                        <a href="<?= BASE_URL ?>map.php" class="footer-link">
+                        <a href="map.php" class="footer-link">
                             Bazaar Map
                         </a>
                     </li>
@@ -61,40 +51,40 @@ $currentYear = date('Y');
                 <ul class="footer-links">
                     <?php if (isset($_SESSION['user_id'])): ?>
                         <li>
-                            <a href="<?= BASE_URL ?>my-account.php" class="footer-link">
-                                My Account
+                            <a href="my-account.php" class="footer-link">
+                                My Profile
                             </a>
                         </li>
                         <li>
-                            <a href="<?= BASE_URL ?>my-reviews.php" class="footer-link">
+                            <a href="my-reviews.php" class="footer-link">
                                 My Reviews
                             </a>
                         </li>
                         <?php if (isset($_SESSION['user_type']) && $_SESSION['user_type'] === 'owner'): ?>
                             <li>
-                                <a href="<?= BASE_URL ?>my-stall.php" class="footer-link">
+                                <a href="my-stall.php" class="footer-link">
                                     My Stall
                                 </a>
                             </li>
                         <?php endif; ?>
                         <li>
-                            <a href="<?= BASE_URL ?>logout.php" class="footer-link">
+                            <a href="logout.php" class="footer-link">
                                 Logout
                             </a>
                         </li>
                     <?php else: ?>
                         <li>
-                            <a href="<?= BASE_URL ?>login.php" class="footer-link">
+                            <a href="login.php" class="footer-link">
                                 Log In
                             </a>
                         </li>
                         <li>
-                            <a href="<?= BASE_URL ?>signup.php" class="footer-link">
+                            <a href="signup.php" class="footer-link">
                                 Sign Up
                             </a>
                         </li>
                         <li>
-                            <a href="<?= BASE_URL ?>signup.php?type=owner" class="footer-link">
+                            <a href="signup.php?type=owner" class="footer-link">
                                 Register Stall
                             </a>
                         </li>
@@ -107,8 +97,8 @@ $currentYear = date('Y');
         <div class="footer-bottom">
             <p class="footer-copyright">
                 &copy; <?php echo $currentYear; ?> BuzzarFeed. All rights reserved. 
-                <a href="<?= BASE_URL ?>privacy.php" class="footer-link">Privacy Policy</a> | 
-                <a href="<?= BASE_URL ?>terms.php" class="footer-link">Terms of Service</a>
+                <a href="privacy.php" class="footer-link">Privacy Policy</a> | 
+                <a href="terms.php" class="footer-link">Terms of Service</a>
             </p>
             
             <!-- Social Media Links -->

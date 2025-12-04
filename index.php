@@ -26,6 +26,17 @@ use BuzzarFeed\Sections\Home\FeaturedStallsSection;
 use BuzzarFeed\Sections\Home\ReviewsSection;
 use BuzzarFeed\Components\Common\Button;
 use BuzzarFeed\Utils\Helpers;
+use BuzzarFeed\Services\StallService;
+use BuzzarFeed\Services\ReviewService;
+
+// Initialize services
+$stallService = new StallService();
+$reviewService = new ReviewService();
+
+// Fetch data from database
+$randomStalls = $stallService->getAllActiveStalls(); // Get all stalls for carousel
+$featuredStalls = $stallService->getRandomStalls(2);
+$recentReviews = $reviewService->getRecentReviews(6);
 
 // Page metadata
 $pageTitle = "BuzzarFeed - Discover the Flavors of BGC Night Market";
@@ -55,11 +66,11 @@ $pageDescription = "Explore food stalls, menus, and honest reviews from fellow f
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="<?php echo CSS_URL; ?>variables.css">
-    <link rel="stylesheet" href="<?php echo CSS_URL; ?>base.css">
-    <link rel="stylesheet" href="<?php echo CSS_URL; ?>components/button.css">
-    <link rel="stylesheet" href="<?php echo CSS_URL; ?>components/dropdown.css">
-    <link rel="stylesheet" href="<?php echo CSS_URL; ?>styles.css">
+    <link rel="stylesheet" href="<?php echo CSS_URL; ?>variables.css?v=<?php echo time(); ?>">
+    <link rel="stylesheet" href="<?php echo CSS_URL; ?>base.css?v=<?php echo time(); ?>">
+    <link rel="stylesheet" href="<?php echo CSS_URL; ?>components/button.css?v=<?php echo time(); ?>">
+    <link rel="stylesheet" href="<?php echo CSS_URL; ?>components/dropdown.css?v=<?php echo time(); ?>">
+    <link rel="stylesheet" href="<?php echo CSS_URL; ?>styles.css?v=<?php echo time(); ?>">
 </head>
 <body>
     <!-- Header Navigation -->
@@ -91,12 +102,36 @@ $pageDescription = "Explore food stalls, menus, and honest reviews from fellow f
 
                 <div class="carousel-container">
                     <div class="carousel-track">
-                        <?php for ($i = 0; $i < 4; $i++): ?>
+                        <?php 
+                        // Display stall logos from database
+                        $carouselStalls = $randomStalls; // Display all random stalls
+                        if (!empty($carouselStalls)):
+                            foreach ($carouselStalls as $stall): 
+                        ?>
+                        <a href="stall-detail.php?id=<?php echo $stall['id']; ?>" class="carousel-item" style="text-decoration: none; color: inherit; border: 1px solid rgba(0, 0, 0, 0.1); border-radius: 12px; padding: 20px; transition: all 0.3s ease; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 200px;" onmouseover="this.style.borderColor='rgba(0, 0, 0, 0.2)'; this.style.boxShadow='0 4px 12px rgba(0, 0, 0, 0.1)';" onmouseout="this.style.borderColor='rgba(0, 0, 0, 0.1)'; this.style.boxShadow='none';">
+                            <?php if (!empty($stall['image'])): ?>
+                                <img src="<?php echo Helpers::escape($stall['image']); ?>" 
+                                     alt="<?php echo Helpers::escape($stall['name']); ?>" 
+                                     class="brand-logo-img" style="max-width: 120px; max-height: 120px; object-fit: contain; margin-bottom: 10px;">
+                            <?php else: ?>
+                                <img src="<?php echo IMAGES_URL; ?>star.svg" alt="Featured brand star" class="star-icon" style="max-width: 80px; max-height: 80px; margin-bottom: 10px;">
+                            <?php endif; ?>
+                            <span class="brand-logo" style="display: block; font-weight: 500; text-align: center; max-width: 180px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="<?php echo Helpers::escape($stall['name']); ?>"><?php echo Helpers::escape($stall['name']); ?></span>
+                        </a>
+                        <?php 
+                            endforeach;
+                        else:
+                            // Fallback if no stalls
+                            for ($i = 0; $i < 4; $i++): 
+                        ?>
                         <div class="carousel-item">
                             <img src="<?php echo IMAGES_URL; ?>star.svg" alt="Featured brand star" class="star-icon">
                             <span class="brand-logo">Logo/brand</span>
                         </div>
-                        <?php endfor; ?>
+                        <?php 
+                            endfor;
+                        endif;
+                        ?>
                     </div>
                 </div>
 
@@ -106,7 +141,10 @@ $pageDescription = "Explore food stalls, menus, and honest reviews from fellow f
             </div>
 
             <div class="carousel-dots">
-                <?php for ($i = 0; $i < 4; $i++): ?>
+                <?php 
+                $totalStalls = !empty($randomStalls) ? count($randomStalls) : 4;
+                for ($i = 0; $i < $totalStalls; $i++): 
+                ?>
                 <span class="dot <?php echo $i === 0 ? 'active' : ''; ?>"></span>
                 <?php endfor; ?>
             </div>
@@ -117,7 +155,8 @@ $pageDescription = "Explore food stalls, menus, and honest reviews from fellow f
     <?php
     $featuredStallsSection = new FeaturedStallsSection([
         'title' => '<span class="highlight-green">Explore</span> featured<br>stalls',
-        'location' => 'Terra 28th, 28th St. corner 7th Ave. BGC'
+        'location' => 'Terra 28th, 28th St. corner 7th Ave. BGC',
+        'stalls' => $featuredStalls
     ]);
     echo $featuredStallsSection->render();
     ?>
@@ -125,7 +164,8 @@ $pageDescription = "Explore food stalls, menus, and honest reviews from fellow f
     <!-- Reviews Section -->
     <?php
     $reviewsSection = new ReviewsSection([
-        'title' => 'See what foodies are <span class="highlight-green">raving</span> about...'
+        'title' => 'See what foodies are <span class="highlight-green">raving</span> about...',
+        'reviews' => $recentReviews
     ]);
     echo $reviewsSection->render();
     ?>

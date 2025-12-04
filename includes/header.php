@@ -1,10 +1,10 @@
 <?php
 /**
  * BuzzarFeed - Header Component
- * 
+ *
  * Reusable header navigation component for all pages
  * Includes logo, main navigation, and user authentication links
- * 
+ *
  * @package BuzzarFeed
  * @version 1.0
  * @author BuzzarFeed Development Team
@@ -31,7 +31,7 @@ if ($isLoggedIn) {
         $db = Database::getInstance();
         $userId = Session::get('user_id');
         $currentUser = $db->querySingle(
-            "SELECT ut.type_name, 
+            "SELECT ut.type_name,
                     (SELECT COUNT(*) FROM food_stalls WHERE owner_id = u.user_id AND is_active = 1) as has_approved_stall,
                     (SELECT COUNT(*) FROM applications WHERE user_id = u.user_id AND current_status_id = 1) as has_pending_application
              FROM users u
@@ -39,14 +39,14 @@ if ($isLoggedIn) {
              WHERE u.user_id = ?",
             [$userId]
         );
-        
+
         if ($currentUser) {
             // Update session if user type changed
             if ($currentUser['type_name'] !== $userType) {
                 Session::set('user_type', $currentUser['type_name']);
                 $userType = $currentUser['type_name'];
             }
-            
+
             // Update stall status flags
             $hasApprovedStall = $currentUser['has_approved_stall'] > 0;
             $hasPendingApplication = $currentUser['has_pending_application'] > 0;
@@ -76,14 +76,14 @@ $isAdmin = $isLoggedIn && $userType === 'admin';
             <a href="<?= BASE_URL ?>" class="logo">
                 <img src="<?= IMAGES_URL ?>/Logo-Header.png" alt="BuzzarFeed" class="logo-img">
             </a>
-            
+
             <!-- Mobile Menu Toggle -->
             <button class="mobile-menu-toggle" aria-label="Toggle menu">
                 <span></span>
                 <span></span>
                 <span></span>
             </button>
-            
+
             <!-- Centered Navigation Menu -->
             <ul class="nav-menu">
                 <li>
@@ -102,7 +102,7 @@ $isAdmin = $isLoggedIn && $userType === 'admin';
                     </a>
                 </li>
             </ul>
-            
+
             <!-- Authentication Links on Right -->
             <div class="nav-actions">
                 <?php if ($isAdmin): ?>
@@ -111,7 +111,7 @@ $isAdmin = $isLoggedIn && $userType === 'admin';
                         Admin Panel
                     </a>
                 <?php endif; ?>
-                
+
                 <?php if ($showManageStallBtn): ?>
                     <!-- Manage Stall Button for Approved Stall Owners -->
                     <a href="<?= BASE_URL ?>manage-stall.php" class="btn btn-secondary">
@@ -128,15 +128,14 @@ $isAdmin = $isLoggedIn && $userType === 'admin';
                         Register Your Stall
                     </a>
                 <?php endif; ?>
-                
+
                 <?php if ($isLoggedIn): ?>
                     <!-- Logged In User -->
                     <div class="user-dropdown">
-                        <button class="btn btn-outline user-dropdown-btn" id="userDropdownBtn" type="button">
-                            <i class="fas fa-user-circle"></i> 
+                        <div class="user-dropdown-btn" id="userDropdownBtn" role="button" tabindex="0">
                             <span class="user-name"><?= htmlspecialchars($userName) ?></span>
-                            <i class="fas fa-chevron-down dropdown-arrow"></i>
-                        </button>
+                            <span class="dropdown-arrow" aria-hidden="true">▼</span>
+                        </div>
                         <ul class="dropdown-menu" id="userDropdownMenu">
                             <li>
                                 <a href="<?= BASE_URL ?>my-account.php" class="dropdown-item">
@@ -145,7 +144,7 @@ $isAdmin = $isLoggedIn && $userType === 'admin';
                             </li>
                             <?php if ($userType === 'food_stall_owner'): ?>
                                 <li>
-                                    <a href="<?= BASE_URL ?>my-stall.php" class="dropdown-item">
+                                    <a href="<?= BASE_URL ?>manage-stall.php" class="dropdown-item">
                                         <i class="fas fa-store"></i> My Stall
                                     </a>
                                 </li>
