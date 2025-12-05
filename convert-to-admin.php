@@ -13,6 +13,7 @@ require_once __DIR__ . '/bootstrap.php';
 use BuzzarFeed\Utils\Helpers;
 use BuzzarFeed\Utils\Session;
 use BuzzarFeed\Utils\Database;
+use BuzzarFeed\Services\AdminLogService;
 
 Session::start();
 
@@ -30,6 +31,7 @@ if (Session::get('user_type') !== 'admin') {
 }
 
 $db = Database::getInstance();
+$logService = new AdminLogService();
 $error = '';
 $success = '';
 
@@ -113,6 +115,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     
                     // Commit transaction
                     $db->execute("COMMIT");
+                    
+                    // Log admin action
+                    $adminId = Session::get('user_id');
+                    if ($adminId) {
+                        $logService->logUserConversion(
+                            $adminId,
+                            $user['user_id'],
+                            $user['name'],
+                            $userEmail
+                        );
+                    }
                     
                     $success = "User '{$user['name']}' ({$userEmail}) has been successfully converted to admin.";
                     

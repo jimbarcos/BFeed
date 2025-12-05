@@ -13,8 +13,11 @@ require_once __DIR__ . '/bootstrap.php';
 use BuzzarFeed\Utils\Helpers;
 use BuzzarFeed\Utils\Session;
 use BuzzarFeed\Utils\Database;
+use BuzzarFeed\Services\ReviewReportService;
 
 Session::start();
+
+$reportService = new ReviewReportService();
 
 $db = Database::getInstance();
 $stallId = Helpers::get('id');
@@ -272,6 +275,51 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             exit;
         }
     }
+    
+    if ($action === 'report_review') {
+        if (!Session::isLoggedIn()) {
+            Session::setFlash('Please log in to report reviews.', 'error');
+            Helpers::redirect('stall-detail.php?id=' . $stallId . '&tab=reviews');
+            exit;
+        }
+        
+        $reviewId = Helpers::post('review_id');
+        $reportReason = Helpers::post('report_reason');
+        $customReason = Helpers::post('custom_reason');
+        
+        try {
+            // Check if user is trying to report their own review
+            $review = $db->querySingle(
+                "SELECT user_id FROM reviews WHERE review_id = ?",
+                [$reviewId]
+            );
+            
+            if ($review && $review['user_id'] == Session::get('user_id')) {
+                Session::setFlash('You cannot report your own review.', 'error');
+                Helpers::redirect('stall-detail.php?id=' . $stallId . '&tab=reviews');
+                exit;
+            }
+            
+            $reportService->reportReview(
+                $reviewId,
+                Session::get('user_id'),
+                $reportReason,
+                $customReason
+            );
+            
+            Session::setFlash('Thank you for reporting! Our moderation team will review this shortly.', 'success');
+            Helpers::redirect('stall-detail.php?id=' . $stallId . '&tab=reviews');
+            exit;
+        } catch (\Exception $e) {
+            if ($e->getMessage() === 'PENDING_REPORT') {
+                Session::setFlash('This review is already under review by our moderation team.', 'info');
+            } else {
+                Session::setFlash('Error: ' . $e->getMessage(), 'error');
+            }
+            Helpers::redirect('stall-detail.php?id=' . $stallId . '&tab=reviews');
+            exit;
+        }
+    }
 }
 
 $pageTitle = Helpers::escape($stall['name']) . " - BuzzarFeed";
@@ -367,6 +415,15 @@ $currentTab = Helpers::get('tab', 'menu');
         <!-- Tab Content -->
         <section class="tab-content-section">
             <div class="container">
+                <?php if (Session::get('flash_message')): ?>
+                    <?php
+                    $flashMessage = Session::getFlash();
+                    $flashType = Session::get('flash_type', 'success');
+                    ?>
+                    <div class="flash-message flash-<?= $flashType ?>">
+                        <?= Helpers::escape(is_array($flashMessage) ? $flashMessage['message'] ?? '' : $flashMessage) ?>
+                    </div>
+                <?php endif; ?>
 
                 <div class="content-card">
                     <div class="tabs">
@@ -537,6 +594,10 @@ $currentTab = Helpers::get('tab', 'menu');
                                                             <i class="fas fa-trash"></i>
                                                         </button>
                                                     </div>
+                                                <?php elseif (Session::isLoggedIn()): ?>
+                                                    <button class="btn-icon btn-report" onclick="openReportModal(<?= $review['review_id'] ?>)" title="Report Review">
+                                                        <i class="fas fa-flag"></i>
+                                                    </button>
                                                 <?php endif; ?>
                                             </div>
                                         </div>
@@ -726,6 +787,65 @@ $currentTab = Helpers::get('tab', 'menu');
         </div>
     </div>
     
+    <!-- Report Review Modal -->
+    <div id="reportReviewModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3><i class="fas fa-flag"></i> Report Review</h3>
+                <span class="modal-close" onclick="closeReportModal()">&times;</span>
+            </div>
+            <form method="POST" id="reportReviewForm">
+                <input type="hidden" name="action" value="report_review">
+                <input type="hidden" name="review_id" id="report_review_id">
+                
+                <div class="modal-body">
+                    <p class="report-description">Help us maintain a respectful community. Please select the reason for reporting this review:</p>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Report Reason <span class="required">*</span></label>
+                        <div class="radio-group">
+                            <label class="radio-label">
+                                <input type="radio" name="report_reason" value="vulgar" required>
+                                <span class="radio-text"><i class="fas fa-language"></i> Vulgar or Offensive Language</span>
+                            </label>
+                            <label class="radio-label">
+                                <input type="radio" name="report_reason" value="inappropriate" required>
+                                <span class="radio-text"><i class="fas fa-ban"></i> Inappropriate Content</span>
+                            </label>
+                            <label class="radio-label">
+                                <input type="radio" name="report_reason" value="spam" required>
+                                <span class="radio-text"><i class="fas fa-envelope-open-text"></i> Spam or Advertisement</span>
+                            </label>
+                            <label class="radio-label">
+                                <input type="radio" name="report_reason" value="harassment" required>
+                                <span class="radio-text"><i class="fas fa-user-slash"></i> Harassment or Bullying</span>
+                            </label>
+                            <label class="radio-label">
+                                <input type="radio" name="report_reason" value="misleading" required>
+                                <span class="radio-text"><i class="fas fa-exclamation-circle"></i> Misleading or False Information</span>
+                            </label>
+                            <label class="radio-label">
+                                <input type="radio" name="report_reason" value="other" required id="report_reason_other">
+                                <span class="radio-text"><i class="fas fa-ellipsis-h"></i> Other</span>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group" id="custom_reason_group" style="display: none;">
+                        <label for="custom_reason" class="form-label">Please describe the issue</label>
+                        <textarea id="custom_reason" name="custom_reason" class="form-textarea" 
+                                  rows="3" placeholder="Provide additional details about why you're reporting this review..."></textarea>
+                    </div>
+                </div>
+                
+                <div class="modal-footer">
+                    <button type="button" class="btn-cancel" onclick="closeReportModal()">Cancel</button>
+                    <button type="submit" class="btn-report-submit">Submit Report</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
     <!-- JavaScript -->
     <script type="module" src="<?= JS_URL ?>/app.js"></script>
     <script>
@@ -901,12 +1021,44 @@ $currentTab = Helpers::get('tab', 'menu');
             document.getElementById('deleteReviewModal').style.display = 'none';
         }
         
+        // Report review modal
+        function openReportModal(reviewId) {
+            document.getElementById('report_review_id').value = reviewId;
+            document.getElementById('reportReviewModal').style.display = 'flex';
+            
+            // Reset form
+            document.getElementById('reportReviewForm').reset();
+            document.getElementById('custom_reason_group').style.display = 'none';
+        }
+        
+        function closeReportModal() {
+            document.getElementById('reportReviewModal').style.display = 'none';
+        }
+        
+        // Show/hide custom reason textarea
+        document.addEventListener('DOMContentLoaded', function() {
+            const reportReasons = document.querySelectorAll('input[name="report_reason"]');
+            reportReasons.forEach(radio => {
+                radio.addEventListener('change', function() {
+                    const customReasonGroup = document.getElementById('custom_reason_group');
+                    if (this.value === 'other') {
+                        customReasonGroup.style.display = 'block';
+                        document.getElementById('custom_reason').required = true;
+                    } else {
+                        customReasonGroup.style.display = 'none';
+                        document.getElementById('custom_reason').required = false;
+                    }
+                });
+            });
+        });
+        
         // Close modal on outside click
         window.onclick = function(event) {
             const reviewModal = document.getElementById('reviewModal');
             const loginModal = document.getElementById('loginRequiredModal');
             const editModal = document.getElementById('editReviewModal');
             const deleteModal = document.getElementById('deleteReviewModal');
+            const reportModal = document.getElementById('reportReviewModal');
             
             if (event.target === reviewModal) {
                 closeReviewModal();
@@ -919,6 +1071,9 @@ $currentTab = Helpers::get('tab', 'menu');
             }
             if (event.target === deleteModal) {
                 closeDeleteReviewModal();
+            }
+            if (event.target === reportModal) {
+                closeReportModal();
             }
         };
     </script>

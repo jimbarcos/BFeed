@@ -7,6 +7,57 @@
  * @version 1.0
  */
 
+/* Flash Messages */
+.flash-message {
+    max-width: 1200px;
+    margin: 0 auto 20px auto;
+    padding: 15px 25px;
+    border-radius: 10px;
+    border: 3px solid #3B3B3B;
+    box-shadow: 5px 5px 0px rgba(59, 59, 59, 1);
+    font-weight: 600;
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.flash-success {
+    background-color: #d4edda;
+    color: #155724;
+    border-color: #3B3B3B;
+}
+
+.flash-error {
+    background-color: #f8d7da;
+    color: #721c24;
+    border-color: #3B3B3B;
+}
+
+.flash-info {
+    background-color: #d1ecf1;
+    color: #0c5460;
+    border-color: #3B3B3B;
+}
+
+.flash-message::before {
+    font-family: 'Font Awesome 6 Free';
+    font-weight: 900;
+    font-size: 1.25rem;
+}
+
+.flash-success::before {
+    content: '\f058'; /* check-circle */
+}
+
+.flash-error::before {
+    content: '\f06a'; /* exclamation-circle */
+}
+
+.flash-info::before {
+    content: '\f05a'; /* info-circle */
+}
+
 /* Back Section */
 .back-section {
     display: flex;
@@ -921,6 +972,15 @@
     color: #dc3545;
 }
 
+.btn-icon.btn-report {
+    font-size: 1rem;
+}
+
+.btn-icon.btn-report:hover {
+    background: rgba(255, 152, 0, 0.1);
+    color: #ff9800;
+}
+
 /* Review Reactions (Like/Dislike) */
 .review-reactions {
     display: flex;
@@ -998,6 +1058,86 @@
 
 .btn-delete-confirm:hover {
     background-color: #c82333;
+}
+
+/* Report Modal Styles */
+.report-description {
+    color: #666;
+    margin-bottom: 1.5rem;
+    font-size: 0.95rem;
+    line-height: 1.5;
+}
+
+.radio-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.radio-label {
+    display: flex;
+    align-items: center;
+    padding: 0.875rem 1rem;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    background-color: white;
+}
+
+.radio-label:hover {
+    border-color: var(--primary-orange);
+    background-color: rgba(255, 113, 32, 0.05);
+}
+
+.radio-label input[type="radio"] {
+    margin-right: 0.75rem;
+    cursor: pointer;
+    accent-color: var(--primary-orange);
+    width: 18px;
+    height: 18px;
+}
+
+.radio-label input[type="radio"]:checked + .radio-text {
+    color: var(--primary-orange);
+    font-weight: 600;
+}
+
+.radio-text {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.95rem;
+    color: #3b3b3b;
+}
+
+.radio-text i {
+    width: 20px;
+    color: inherit;
+}
+
+.required {
+    color: #dc3545;
+    margin-left: 0.25rem;
+}
+
+.btn-report-submit {
+    padding: 0.75rem 1.5rem;
+    background-color: #ff9800;
+    color: white;
+    border: 1px solid #3b3b3b;
+    border-radius: 6px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0px 3px 0px #3b3b3b;
+}
+
+.btn-report-submit:hover {
+    background-color: #f57c00;
+    transform: translateY(-2px);
+    box-shadow: 0px 5px 0px #3b3b3b;
 }
 
 @media (max-width: 768px) {

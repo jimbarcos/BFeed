@@ -18,10 +18,12 @@ use BuzzarFeed\Utils\EmailService;
 class ApplicationService
 {
     private Database $db;
+    private AdminLogService $logService;
     
     public function __construct()
     {
         $this->db = Database::getInstance();
+        $this->logService = new AdminLogService();
     }
     
     /**
@@ -102,6 +104,17 @@ class ApplicationService
             // Commit transaction
             $this->db->execute("COMMIT");
             
+            // Log admin action
+            $adminId = Session::get('user_id');
+            if ($adminId) {
+                $this->logService->logApplicationApproval(
+                    $adminId,
+                    $applicationId,
+                    $application['stall_name'],
+                    $reviewNotes
+                );
+            }
+            
             // Send approval email
             $this->sendApprovalEmail($application, $reviewNotes);
             
@@ -138,6 +151,17 @@ class ApplicationService
                 [$applicationId]
             );
             
+            // Log admin action
+            $adminId = Session::get('user_id');
+            if ($adminId) {
+                $this->logService->logApplicationDecline(
+                    $adminId,
+                    $applicationId,
+                    $application['stall_name'],
+                    $reviewNotes
+                );
+            }
+            
             // Send decline email
             $this->sendDeclineEmail($application, $reviewNotes);
             
@@ -155,7 +179,20 @@ class ApplicationService
      */
     public function archiveApplication(int $applicationId): bool
     {
+        $application = $this->getApplicationById($applicationId);
+        
         $this->updateApplicationStatus($applicationId, 3);
+        
+        // Log admin action
+        $adminId = Session::get('user_id');
+        if ($adminId && $application) {
+            $this->logService->logApplicationArchive(
+                $adminId,
+                $applicationId,
+                $application['stall_name']
+            );
+        }
+        
         return true;
     }
 
